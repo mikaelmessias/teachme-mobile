@@ -1,18 +1,13 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
+import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import React from 'react';
-import InitialScreen from './screens/InitialScreen/InitialScreen';
+import Navigator from './navigator/Navigator';
 
 const App = () => {
-  return <InitialScreen />;
+  return (
+    <PaperProvider theme={DefaultTheme}>
+      <Navigator />
+    </PaperProvider>
+  );
 };
 
 export default App;

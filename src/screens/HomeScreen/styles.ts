@@ -7,14 +7,15 @@ export const styles = StyleSheet.create({
   },
   scrollView: {
     padding: 38,
-    justifyContent: 'space-between',
   },
   logo: {
     width: 261.24,
     height: 64.75,
     alignSelf: 'center',
   },
-  descriptionGroup: {},
+  descriptionGroup: {
+    marginBottom: 108
+  },
   description: {
     fontSize: 48,
     fontWeight: '600',
@@ -24,18 +25,9 @@ export const styles = StyleSheet.create({
     color: '#C5C5C5',
   },
   signUpButton: {
-    marginBottom: 24,
-    paddingVertical: 8,
-    borderRadius: 50,
-    borderColor: 'white',
-    borderWidth: 1,
+    marginBottom: 24
   },
-  loginButton: {
-    backgroundColor: 'white',
-    padding: 8,
-    marginBottom: 80,
-    borderRadius: 50,
-    borderColor: '#B5B5B5',
-    borderWidth: 1,
-  },
+  signInButton: {
+    marginBottom: 100
+  }
 });

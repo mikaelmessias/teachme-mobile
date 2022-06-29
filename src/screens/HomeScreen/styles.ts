@@ -1,8 +1,11 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+  },
+  scrollView: {
     padding: 38,
     justifyContent: 'space-between',
   },
@@ -22,5 +25,17 @@ export const styles = StyleSheet.create({
   },
   signUpButton: {
     marginBottom: 24,
+    paddingVertical: 8,
+    borderRadius: 50,
+    borderColor: 'white',
+    borderWidth: 1,
+  },
+  loginButton: {
+    backgroundColor: 'white',
+    padding: 8,
+    marginBottom: 80,
+    borderRadius: 50,
+    borderColor: '#B5B5B5',
+    borderWidth: 1,
   },
 });

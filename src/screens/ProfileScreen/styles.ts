@@ -5,9 +5,10 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: 'white',
-    padding: 28
   },
   scrollView: {
+    padding: 28
+
   },
   editButton: {
     backgroundColor: 'white',
@@ -26,7 +27,8 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     alignSelf: 'center',
     marginBottom: 16,
-    shadowColor: '#171717',
+    shadowOffset: { width: 1, height: 2 },
+    shadowColor: '#00000029',
     shadowOpacity: 0.5,
     shadowRadius: 3,
   },
@@ -58,5 +60,55 @@ export const styles = StyleSheet.create({
   },
   description: {
     fontSize: 14,
-  }
+  },
+  viewInfos: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  textButton: {
+    marginBottom: 24,
+    fontSize: 18,
+    fontWeight: '800'
+  },
 });
+
+export const stylesFlatList = StyleSheet.create({
+  flatList: {
+    borderColor: '#00000029',
+    borderRadius: 20,
+    borderWidth: 1,
+    shadowColor: '#00000029',
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
+    paddingVertical: 18,
+    marginBottom: 100, // perguntar sobre isso
+  },
+  content: {
+    flexDirection: 'row',
+    padding: 12,
+  },
+  logoTech: {
+    width: 45,
+    height: 45,
+    borderRadius: 100,
+    borderColor: 'white',
+    borderWidth: 1,
+    alignSelf: 'center',
+    marginEnd: 25,
+    elevation: 1,
+  },
+  contentDescription: {
+    flexDirection: 'column',
+  },
+  title: {
+    fontSize: 14,
+    fontWeight: '900',
+    marginBottom: 4,
+    color: '#353535',
+  },
+  value: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#828282'
+  }
+})

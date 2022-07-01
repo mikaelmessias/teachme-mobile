@@ -5,6 +5,7 @@ import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import SignUpScreen from '../screens/SignUpScreen/SignUpScreen';
 import {iRootStackParamList} from './interfaces/iRootStackParamList';
 import LoginScreen from '../screens/LoginScreen/LoginScreen';
+import SignUpPersonalDataScreen from '../screens/SignUpPersonalDataScreen/SignUpPersonalDataScreen';
 
 const Stack = createNativeStackNavigator<iRootStackParamList>();
 
@@ -13,9 +14,14 @@ const Navigator = () => {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="HomeScreen"
-        screenOptions={{headerShown: false}}>
+        screenOptions={{headerShown: false}}
+      >
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+        <Stack.Screen
+          name="SignUpPersonalDataScreen"
+          component={SignUpPersonalDataScreen}
+        />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
       </Stack.Navigator>
     </NavigationContainer>

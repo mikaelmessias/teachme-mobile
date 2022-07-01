@@ -10,7 +10,10 @@ const getContainerStyles = (showBackButton = false) =>
       paddingHorizontal: 36,
       borderBottomWidth: 1,
       borderBottomColor: '#2A2A2A',
-      marginBottom: 36,
+      backgroundColor: '#FFFFFF',
+      position: 'absolute',
+      width: '100%',
+      zIndex: 1000,
     },
   }).default;
 

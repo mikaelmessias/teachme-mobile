@@ -32,7 +32,7 @@ const LoginScreen = () => {
           <TextInput
             mode="outlined"
             label={'Senha'}
-            placeholder="Digite sua senha"
+            placeholder="Digite uma senha"
             right={
               <TextInput.Icon name="form-textbox-password" color={'#333'} />
             }
@@ -42,7 +42,7 @@ const LoginScreen = () => {
         </View>
 
         <Button
-          title="Continuar"
+          title="Entrar"
           onPress={() => console.log('logando...')}
           style={styles.continueButton}
         />

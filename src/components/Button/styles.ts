@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
 
 const getButtonContainerStyles = (
   mode: 'blue' | 'simple' = 'simple',
-  loading?: boolean,
+  disabled?: boolean,
 ) =>
   StyleSheet.create({
     default: {
@@ -20,7 +20,7 @@ const getButtonContainerStyles = (
       borderColor: mode === 'blue' ? '#FFFFFF' : '#B5B5B5',
       borderWidth: 1,
       flexDirection: 'row',
-      opacity: loading ? 0.6 : 1,
+      opacity: disabled ? 0.6 : 1,
     },
   }).default;
 

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import SignUpHeader from '../../components/SignUpHeader/SignUpHeader';
 import styles from './styles';
@@ -15,33 +15,19 @@ import {IconButton, TextInput} from 'react-native-paper';
 import {setJediSkills} from '../../contexts/SignUpContext/actions';
 import utils from './utils';
 
-interface Tech {
-  __typename?: string;
-  id: number;
-  title: string;
-  thumbnail: string;
-}
-
 const SignUpSkillsScreen = () => {
   const {state, dispatch: signUpDispatch} = useSignUp();
 
   const nav = useNavigation();
 
-  const [techs, setTechs] = useState<Tech[]>([]);
   const [currentSelectedTechId, setCurrentSelectedTechId] = useState(0);
   const [skillPrice, setSkillPrice] = useState('0.00');
 
-  const {data: techList} = useTechListAllQuery();
+  const {data, refetch} = useTechListAllQuery();
   const [createJediSkill, {loading: isJediSkillCreating}] =
     useCreateJediSkillMutation();
   const [removeJediSkill, {loading: isJediSkillRemoving}] =
     useDeleteJediSkillMutation();
-
-  useEffect(() => {
-    if (techList) {
-      setTechs(techList.tech_list_all);
-    }
-  }, [techList]);
 
   const handlePriceChange = (value: string) => {
     const newPrice = value.replace(/[^\d|.]*/g, '');
@@ -50,7 +36,7 @@ const SignUpSkillsScreen = () => {
 
   const handleAddPress = async () => {
     if (state.jedi) {
-      const {data} = await createJediSkill({
+      const {data: results} = await createJediSkill({
         variables: {
           jediId: state.jedi.id,
           techId: currentSelectedTechId,
@@ -58,8 +44,12 @@ const SignUpSkillsScreen = () => {
         },
       });
 
-      if (data && data.jedi_skill_create && data.jedi_skill_create.skills) {
-        const skills = data.jedi_skill_create.skills.map(skill => ({
+      if (
+        results &&
+        results.jedi_skill_create &&
+        results.jedi_skill_create.skills
+      ) {
+        const skills = results.jedi_skill_create.skills.map(skill => ({
           id: skill.id,
           tech: {
             id: skill.tech.id,
@@ -76,7 +66,7 @@ const SignUpSkillsScreen = () => {
 
   const handleRemovePress = async (techId: number) => {
     if (state.jedi) {
-      const {data} = await removeJediSkill({
+      const {data: results} = await removeJediSkill({
         variables: {
           jediId: state.jedi.id,
           techId: techId,
@@ -84,11 +74,11 @@ const SignUpSkillsScreen = () => {
       });
 
       if (
-        data &&
-        data.jedi_skill_delete_single &&
-        data.jedi_skill_delete_single.skills
+        results &&
+        results.jedi_skill_delete_single &&
+        results.jedi_skill_delete_single.skills
       ) {
-        const skills = data.jedi_skill_delete_single.skills.map(skill => ({
+        const skills = results.jedi_skill_delete_single.skills.map(skill => ({
           id: skill.id,
           tech: {
             id: skill.tech.id,
@@ -113,6 +103,13 @@ const SignUpSkillsScreen = () => {
     return <Icon style={styles.mySkillsAreaListItemIcon} />;
   };
 
+  const handlePickerFocus = () => {
+    if (!data || !data.tech_list_all.length) {
+      console.log('refetching');
+      refetch();
+    }
+  };
+
   return (
     <View style={styles.container}>
       <SignUpHeader disableLogoButton />
@@ -130,8 +127,9 @@ const SignUpSkillsScreen = () => {
               prompt="Selecione uma tecnologia"
               enabled={!isJediSkillCreating || !isJediSkillRemoving}
               placeholder="Selecione uma tecnologia"
+              onFocus={handlePickerFocus}
             >
-              {techs.map(tech => (
+              {data?.tech_list_all.map(tech => (
                 <Picker.Item
                   key={tech.id}
                   label={tech.title}
@@ -158,6 +156,7 @@ const SignUpSkillsScreen = () => {
             onPress={handleAddPress}
             style={styles.addButton}
             mode="blue"
+            loading={isJediSkillCreating || isJediSkillRemoving}
           />
 
           <View style={styles.mySkillsAreaContainer}>
@@ -191,6 +190,7 @@ const SignUpSkillsScreen = () => {
             title="Continuar"
             onPress={handleContinuePress}
             style={styles.continueButton}
+            disabled={isJediSkillCreating || isJediSkillRemoving}
           />
         </View>
       </View>

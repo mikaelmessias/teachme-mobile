@@ -40,7 +40,6 @@ const SignUpPersonalDataScreen = () => {
     useState(true);
 
   useEffect(() => {
-    console.log(isPadawanCreating, isJediCreating);
     setLoading(isPadawanCreating || isJediCreating);
   }, [isPadawanCreating, isJediCreating]);
 
@@ -107,8 +106,6 @@ const SignUpPersonalDataScreen = () => {
       birthdate: birthdate,
       biography: biography,
     };
-
-    console.log(variables);
 
     try {
       if (signUpState.userType === 'padawan') {

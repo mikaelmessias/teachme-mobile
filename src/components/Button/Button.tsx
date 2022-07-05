@@ -10,16 +10,20 @@ interface iButtonProps {
   mode?: 'blue' | 'simple';
   style?: StyleProp<ViewStyle>;
   loading?: boolean;
+  disabled?: boolean;
 }
 
 const Button: FunctionComponent<iButtonProps> = props => {
-  const {onPress, mode, style: PropStyle, title, loading} = props;
+  const {onPress, mode, style: PropStyle, title, loading, disabled} = props;
 
   return (
     <TouchableOpacity
-      style={[styles.getButtonContainerStyles(mode, loading), PropStyle]}
+      style={[
+        styles.getButtonContainerStyles(mode, disabled || loading),
+        PropStyle,
+      ]}
       onPress={onPress}
-      disabled={loading}
+      disabled={disabled || loading}
     >
       <Text style={styles.getButtonTitleStyles(mode)}>{title}</Text>
       {loading && <ActivityIndicator size={16} style={styles.loadingIcon} />}
@@ -29,6 +33,8 @@ const Button: FunctionComponent<iButtonProps> = props => {
 
 Button.defaultProps = {
   mode: 'simple',
+  loading: false,
+  disabled: false,
 };
 
 export default Button;

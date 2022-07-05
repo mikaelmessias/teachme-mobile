@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
-import { styles } from './styles';
+import React, {FunctionComponent} from 'react';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {styles} from './styles';
 
 interface iSolicitationProps {
   title: string;
@@ -21,54 +21,40 @@ const ItemNextAppointment: FunctionComponent<iSolicitationProps> = props => {
         />
 
         <View style={styles.containerTexts}>
-          <Text style={styles.title}>
-            {props.title}
-          </Text>
-          <Text style={styles.date}>
-            {props.date}
-          </Text>
-          <Text style={styles.status}>
-          {props.status}
-        </Text>
+          <Text style={styles.title}>{props.title}</Text>
+          <Text style={styles.date}>{props.date}</Text>
+          <Text style={styles.status}>{props.status}</Text>
         </View>
       </View>
 
-      {props.status == "Solicitação pendente" && 
+      {props.status === 'Solicitação pendente' && (
         <View style={styles.containerButtons}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={[styles.touchable, {borderEndWidth: 1}]}
             onPress={props.onPressAccept}
           >
-            <Text style={{color: '#17D19E', fontWeight: '900'}}>
-              ACEITAR
-            </Text>
+            <Text style={{color: '#17D19E', fontWeight: '900'}}>ACEITAR</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.touchable}
             onPress={props.onPressRefuse}
           >
-            <Text style={{color: '#D1173D', fontWeight: '900'}}>
-              RECUSAR
-            </Text>
+            <Text style={{color: '#D1173D', fontWeight: '900'}}>RECUSAR</Text>
           </TouchableOpacity>
         </View>
-      }
+      )}
 
-      {props.status == "Atendimento confirmado" && 
+      {props.status === 'Atendimento confirmado' && (
         <View style={styles.containerButtons}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={[styles.touchable, {borderEndWidth: 1}]}
             onPress={props.onPressCancel}
           >
-            <Text style={{color: '#D1173D', fontWeight: '900'}}>
-              CANCELAR
-            </Text>
+            <Text style={{color: '#D1173D', fontWeight: '900'}}>CANCELAR</Text>
           </TouchableOpacity>
         </View>
-      }
-
-
+      )}
     </View>
   );
 };

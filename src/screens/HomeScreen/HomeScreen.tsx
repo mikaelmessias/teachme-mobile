@@ -9,7 +9,7 @@ const HomeScreen = () => {
   const nav = useNavigation();
 
   const handleSignUpPress = () => {
-    nav.navigate('NextAppointmentsScreen');
+    nav.navigate('SignUpScreen');
   };
 
   const handleLoginPress = () => {

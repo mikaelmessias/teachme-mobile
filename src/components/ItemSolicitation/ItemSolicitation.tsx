@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
-import { styles } from './styles';
+import React, {FunctionComponent} from 'react';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {styles} from './styles';
 
 interface iSolicitationProps {
   title: string;
@@ -19,32 +19,24 @@ const ItemSolicitation: FunctionComponent<iSolicitationProps> = props => {
         />
 
         <View style={styles.containerTexts}>
-          <Text style={styles.title}>
-            {props.title}
-          </Text>
-          <Text style={styles.date}>
-            {props.date}
-          </Text>
+          <Text style={styles.title}>{props.title}</Text>
+          <Text style={styles.date}>{props.date}</Text>
         </View>
       </View>
 
       <View style={styles.containerButtons}>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={[styles.touchable, {borderEndWidth: 1}]}
           onPress={props.onPressAccept}
         >
-          <Text style={{color: '#17D19E', fontWeight: '900'}}>
-            ACEITAR
-          </Text>
+          <Text style={{color: '#17D19E', fontWeight: '900'}}>ACEITAR</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.touchable}
           onPress={props.onPressRefuse}
         >
-          <Text style={{color: '#D1173D', fontWeight: '900'}}>
-            RECUSAR
-          </Text>
+          <Text style={{color: '#D1173D', fontWeight: '900'}}>RECUSAR</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -1,7 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {FlatList, ScrollView, Text} from 'react-native';
-import ItemNotification from '../../components/ItemNotification/ItemNotification';
-import ItemSolicitation from '../../components/ItemSolicitation/ItemSolicitation';
+import ItemNextAppointment from '../../components/ItemNextAppointment/ItemNextAppointment';
 
 import {styles} from './styles';
 
@@ -16,11 +15,17 @@ const solicitations = [
     id: 2,
     name: 'Mikael',
     date: '12/07/2022',
-    status: 'Atendimento cancelado',
+    status: 'Atendimento confirmado',
+  },
+  {
+    id: 3,
+    name: 'Giuvane',
+    date: '12/07/2022',
+    status: 'Solicitação pendente',
   },
 ];
 
-const NotificationScreen: FunctionComponent = () => {
+const ScheduleScreen: FunctionComponent = () => {
   const handleAcceptPress = (id: number): any => {
     console.log(id);
   };
@@ -29,33 +34,25 @@ const NotificationScreen: FunctionComponent = () => {
     console.log(id);
   };
 
+  const handleCancelPress = (id: number): any => {
+    console.log(id);
+  };
+
   return (
     <ScrollView style={styles.scrollView}>
-      <Text style={styles.title}>Solicitações</Text>
+      <Text style={styles.title}>Próximos atendimentos</Text>
 
       <FlatList
         scrollEnabled={false}
         data={solicitations}
         renderItem={({item}) => (
-          <ItemSolicitation
-            title={item.name}
-            date={item.date}
-            onPressAccept={handleAcceptPress(item.id)}
-            onPressRefuse={handleRefusePress(item.id)}
-          />
-        )}
-      />
-
-      <Text style={styles.title}>Atualizações</Text>
-
-      <FlatList
-        scrollEnabled={false}
-        data={solicitations}
-        renderItem={({item}) => (
-          <ItemNotification
+          <ItemNextAppointment
             title={item.name}
             date={item.date}
             status={item.status}
+            onPressAccept={handleAcceptPress(item.id)}
+            onPressRefuse={handleRefusePress(item.id)}
+            onPressCancel={handleCancelPress(item.id)}
           />
         )}
       />
@@ -63,4 +60,4 @@ const NotificationScreen: FunctionComponent = () => {
   );
 };
 
-export default NotificationScreen;
+export default ScheduleScreen;

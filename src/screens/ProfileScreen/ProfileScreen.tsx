@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Image,
   TouchableOpacity,
@@ -13,12 +13,34 @@ import SignUpHeader from '../../components/SignUpHeader/SignUpHeader';
 import {Button} from 'react-native-paper';
 
 import {styles, stylesFlatList} from './styles';
+import {useGetUserLazyQuery} from '../../generated/graphql';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {iUser} from './iUser';
 
 const ProfileScreen = () => {
+  const nav = useNavigation();
+
   var [isPressAbility, setIsPressAbility] = React.useState(true);
   var [isPressAvailability, setIsPressAvailability] = React.useState(false);
 
-  const nav = useNavigation();
+  const [getUser] = useGetUserLazyQuery();
+  const [userData, setUserData] = React.useState<iUser>();
+
+  useEffect(() => {
+    (async () => {
+      const userId = await AsyncStorage.getItem('@userId');
+
+      const {data} = await getUser({
+        variables: {
+          id: Number(userId),
+        },
+      });
+
+      if (data && data.user_list_single) {
+        setUserData(data.user_list_single);
+      }
+    })();
+  }, []);
 
   const list = [
     {
@@ -56,29 +78,26 @@ const ProfileScreen = () => {
           source={require('../../assets/jon-snow.jpeg')}
         />
 
-        <Text style={styles.name}>Jon Snow</Text>
+        <Text style={styles.name}>{userData?.name}</Text>
 
-        <Text style={styles.email}>snow@kingslayer.uk</Text>
+        <Text style={styles.email}>{userData?.email}</Text>
 
         <View style={styles.content}>
           <Text style={styles.title}>DATA DE NASCIMENTO</Text>
 
-          <Text style={styles.description}>12 de dezembro de 1996</Text>
+          <Text style={styles.description}>{userData?.birthdate}</Text>
         </View>
 
         <View style={styles.content}>
           <Text style={styles.title}>CPF</Text>
 
-          <Text style={styles.description}>123.456.789-00</Text>
+          <Text style={styles.description}>{userData?.cpf}</Text>
         </View>
 
         <View style={[styles.content, {marginBottom: 38}]}>
           <Text style={styles.title}>Bio</Text>
 
-          <Text style={styles.description}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis
-            nibh libero, ac tincidunt dui consequat quis.
-          </Text>
+          <Text style={styles.description}>{userData?.biography}</Text>
         </View>
 
         <View style={styles.viewInfos}>
@@ -118,20 +137,20 @@ const ProfileScreen = () => {
 
         <FlatList
           style={stylesFlatList.flatList}
-          data={list}
+          data={userData?.skills}
           renderItem={({item}) => (
             <View style={stylesFlatList.content}>
               <View>
                 <Image
-                  style={stylesFlatList.logoTech}
+                  style={stylesFlatList.logoTech} //TODO ver sobre a logo
                   source={require('../../assets/jon-snow.jpeg')}
                 />
               </View>
               <View style={stylesFlatList.contentDescription}>
                 <Text style={stylesFlatList.title}>
-                  {item.title.toUpperCase()}
+                  {item.tech.title.toUpperCase()}
                 </Text>
-                <Text style={stylesFlatList.value}>{item.value}</Text>
+                <Text style={stylesFlatList.value}>{item.price}</Text>
               </View>
             </View>
           )}

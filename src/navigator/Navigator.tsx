@@ -17,7 +17,7 @@ const Navigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="HomeScreen"
+        initialRouteName="ProfileScreen"
         screenOptions={{
           headerShown: false,
           animation: 'fade',

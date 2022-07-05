@@ -1,17 +1,21 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+  },
+  scrollView: {
     padding: 38,
-    justifyContent: 'space-between',
   },
   logo: {
     width: 261.24,
     height: 64.75,
     alignSelf: 'center',
   },
-  descriptionGroup: {},
+  descriptionGroup: {
+    marginBottom: 108
+  },
   description: {
     fontSize: 48,
     fontWeight: '600',
@@ -21,6 +25,9 @@ export const styles = StyleSheet.create({
     color: '#C5C5C5',
   },
   signUpButton: {
-    marginBottom: 24,
+    marginBottom: 24
   },
+  signInButton: {
+    marginBottom: 100
+  }
 });

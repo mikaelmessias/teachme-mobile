@@ -7,8 +7,7 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   scrollView: {
-    padding: 28
-
+    padding: 28,
   },
   editButton: {
     backgroundColor: 'white',
@@ -27,7 +26,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     alignSelf: 'center',
     marginBottom: 16,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: {width: 1, height: 2},
     shadowColor: '#00000029',
     shadowOpacity: 0.5,
     shadowRadius: 3,
@@ -51,7 +50,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     padding: 12,
-    marginBottom: 18
+    marginBottom: 18,
   },
   title: {
     fontSize: 12,
@@ -68,7 +67,7 @@ export const styles = StyleSheet.create({
   textButton: {
     marginBottom: 24,
     fontSize: 18,
-    fontWeight: '800'
+    fontWeight: '800',
   },
 });
 
@@ -109,6 +108,6 @@ export const stylesFlatList = StyleSheet.create({
   value: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#828282'
-  }
-})
+    color: '#828282',
+  },
+});

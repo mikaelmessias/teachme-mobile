@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   descriptionGroup: {
-    marginBottom: 108
+    marginBottom: 108,
   },
   description: {
     fontSize: 48,
@@ -25,9 +25,9 @@ export const styles = StyleSheet.create({
     color: '#C5C5C5',
   },
   signUpButton: {
-    marginBottom: 24
+    marginBottom: 24,
   },
   signInButton: {
-    marginBottom: 100
-  }
+    marginBottom: 100,
+  },
 });

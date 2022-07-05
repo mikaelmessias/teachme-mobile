@@ -312,6 +312,59 @@ export enum WeekdaysEnum {
   Wednesday = 'WEDNESDAY',
 }
 
+export type CreatePadawanMutationVariables = Exact<{
+  name: Scalars['String'];
+  email: Scalars['String'];
+  cpf: Scalars['String'];
+  password: Scalars['String'];
+  birthdate?: InputMaybe<Scalars['Float']>;
+  biography?: InputMaybe<Scalars['String']>;
+}>;
+
+export type CreatePadawanMutation = {
+  __typename?: 'Mutation';
+  padawan_create: {__typename?: 'PadawanEntity'; id: number; name: string};
+};
+
+export type CreateJediMutationVariables = Exact<{
+  name: Scalars['String'];
+  email: Scalars['String'];
+  cpf: Scalars['String'];
+  password: Scalars['String'];
+  birthdate?: InputMaybe<Scalars['Float']>;
+  biography?: InputMaybe<Scalars['String']>;
+}>;
+
+export type CreateJediMutation = {
+  __typename?: 'Mutation';
+  jedi_create: {__typename?: 'JediEntity'; id: number; name: string};
+};
+
+export type CreateJediSkillMutationVariables = Exact<{
+  jediId: Scalars['Float'];
+  techId: Scalars['Float'];
+  price: Scalars['Float'];
+}>;
+
+export type CreateJediSkillMutation = {
+  __typename?: 'Mutation';
+  jedi_skill_create: {
+    __typename?: 'JediEntity';
+    id: number;
+    skills?: Array<{
+      __typename?: 'JediSkillEntity';
+      id: string;
+      price: number;
+      tech: {
+        __typename?: 'TechEntity';
+        id: number;
+        title: string;
+        thumbnail: string;
+      };
+    }> | null;
+  };
+};
+
 export type TechListAllQueryVariables = Exact<{[key: string]: never}>;
 
 export type TechListAllQuery = {
@@ -321,19 +374,246 @@ export type TechListAllQuery = {
     id: number;
     title: string;
     thumbnail: string;
-    updatedAt: number;
-    createdAt: number;
   }>;
 };
 
+export type DeleteJediSkillMutationVariables = Exact<{
+  jediId: Scalars['Float'];
+  techId: Scalars['Float'];
+}>;
+
+export type DeleteJediSkillMutation = {
+  __typename?: 'Mutation';
+  jedi_skill_delete_single: {
+    __typename?: 'JediEntity';
+    id: number;
+    skills?: Array<{
+      __typename?: 'JediSkillEntity';
+      id: string;
+      price: number;
+      tech: {
+        __typename?: 'TechEntity';
+        id: number;
+        title: string;
+        thumbnail: string;
+      };
+    }> | null;
+  };
+};
+
+export const CreatePadawanDocument = gql`
+  mutation CreatePadawan(
+    $name: String!
+    $email: String!
+    $cpf: String!
+    $password: String!
+    $birthdate: Float
+    $biography: String
+  ) {
+    padawan_create(
+      padawan: {
+        name: $name
+        email: $email
+        cpf: $cpf
+        password: $password
+        birthdate: $birthdate
+        biography: $biography
+      }
+    ) {
+      id
+      name
+    }
+  }
+`;
+export type CreatePadawanMutationFn = Apollo.MutationFunction<
+  CreatePadawanMutation,
+  CreatePadawanMutationVariables
+>;
+
+/**
+ * __useCreatePadawanMutation__
+ *
+ * To run a mutation, you first call `useCreatePadawanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePadawanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPadawanMutation, { data, loading, error }] = useCreatePadawanMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      email: // value for 'email'
+ *      cpf: // value for 'cpf'
+ *      password: // value for 'password'
+ *      birthdate: // value for 'birthdate'
+ *      biography: // value for 'biography'
+ *   },
+ * });
+ */
+export function useCreatePadawanMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreatePadawanMutation,
+    CreatePadawanMutationVariables
+  >,
+) {
+  const options = {...defaultOptions, ...baseOptions};
+  return Apollo.useMutation<
+    CreatePadawanMutation,
+    CreatePadawanMutationVariables
+  >(CreatePadawanDocument, options);
+}
+export type CreatePadawanMutationHookResult = ReturnType<
+  typeof useCreatePadawanMutation
+>;
+export type CreatePadawanMutationResult =
+  Apollo.MutationResult<CreatePadawanMutation>;
+export type CreatePadawanMutationOptions = Apollo.BaseMutationOptions<
+  CreatePadawanMutation,
+  CreatePadawanMutationVariables
+>;
+export const CreateJediDocument = gql`
+  mutation CreateJedi(
+    $name: String!
+    $email: String!
+    $cpf: String!
+    $password: String!
+    $birthdate: Float
+    $biography: String
+  ) {
+    jedi_create(
+      jedi: {
+        name: $name
+        email: $email
+        cpf: $cpf
+        password: $password
+        birthdate: $birthdate
+        biography: $biography
+      }
+    ) {
+      id
+      name
+    }
+  }
+`;
+export type CreateJediMutationFn = Apollo.MutationFunction<
+  CreateJediMutation,
+  CreateJediMutationVariables
+>;
+
+/**
+ * __useCreateJediMutation__
+ *
+ * To run a mutation, you first call `useCreateJediMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateJediMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createJediMutation, { data, loading, error }] = useCreateJediMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      email: // value for 'email'
+ *      cpf: // value for 'cpf'
+ *      password: // value for 'password'
+ *      birthdate: // value for 'birthdate'
+ *      biography: // value for 'biography'
+ *   },
+ * });
+ */
+export function useCreateJediMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateJediMutation,
+    CreateJediMutationVariables
+  >,
+) {
+  const options = {...defaultOptions, ...baseOptions};
+  return Apollo.useMutation<CreateJediMutation, CreateJediMutationVariables>(
+    CreateJediDocument,
+    options,
+  );
+}
+export type CreateJediMutationHookResult = ReturnType<
+  typeof useCreateJediMutation
+>;
+export type CreateJediMutationResult =
+  Apollo.MutationResult<CreateJediMutation>;
+export type CreateJediMutationOptions = Apollo.BaseMutationOptions<
+  CreateJediMutation,
+  CreateJediMutationVariables
+>;
+export const CreateJediSkillDocument = gql`
+  mutation CreateJediSkill($jediId: Float!, $techId: Float!, $price: Float!) {
+    jedi_skill_create(
+      jediSkill: {jediId: $jediId, techId: $techId, price: $price}
+    ) {
+      id
+      skills {
+        id
+        tech {
+          id
+          title
+          thumbnail
+        }
+        price
+      }
+    }
+  }
+`;
+export type CreateJediSkillMutationFn = Apollo.MutationFunction<
+  CreateJediSkillMutation,
+  CreateJediSkillMutationVariables
+>;
+
+/**
+ * __useCreateJediSkillMutation__
+ *
+ * To run a mutation, you first call `useCreateJediSkillMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateJediSkillMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createJediSkillMutation, { data, loading, error }] = useCreateJediSkillMutation({
+ *   variables: {
+ *      jediId: // value for 'jediId'
+ *      techId: // value for 'techId'
+ *      price: // value for 'price'
+ *   },
+ * });
+ */
+export function useCreateJediSkillMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateJediSkillMutation,
+    CreateJediSkillMutationVariables
+  >,
+) {
+  const options = {...defaultOptions, ...baseOptions};
+  return Apollo.useMutation<
+    CreateJediSkillMutation,
+    CreateJediSkillMutationVariables
+  >(CreateJediSkillDocument, options);
+}
+export type CreateJediSkillMutationHookResult = ReturnType<
+  typeof useCreateJediSkillMutation
+>;
+export type CreateJediSkillMutationResult =
+  Apollo.MutationResult<CreateJediSkillMutation>;
+export type CreateJediSkillMutationOptions = Apollo.BaseMutationOptions<
+  CreateJediSkillMutation,
+  CreateJediSkillMutationVariables
+>;
 export const TechListAllDocument = gql`
   query TechListAll {
     tech_list_all {
       id
       title
       thumbnail
-      updatedAt
-      createdAt
     }
   }
 `;
@@ -384,4 +664,64 @@ export type TechListAllLazyQueryHookResult = ReturnType<
 export type TechListAllQueryResult = Apollo.QueryResult<
   TechListAllQuery,
   TechListAllQueryVariables
+>;
+export const DeleteJediSkillDocument = gql`
+  mutation DeleteJediSkill($jediId: Float!, $techId: Float!) {
+    jedi_skill_delete_single(jediSkill: {jediId: $jediId, techId: $techId}) {
+      id
+      skills {
+        id
+        tech {
+          id
+          title
+          thumbnail
+        }
+        price
+      }
+    }
+  }
+`;
+export type DeleteJediSkillMutationFn = Apollo.MutationFunction<
+  DeleteJediSkillMutation,
+  DeleteJediSkillMutationVariables
+>;
+
+/**
+ * __useDeleteJediSkillMutation__
+ *
+ * To run a mutation, you first call `useDeleteJediSkillMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteJediSkillMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteJediSkillMutation, { data, loading, error }] = useDeleteJediSkillMutation({
+ *   variables: {
+ *      jediId: // value for 'jediId'
+ *      techId: // value for 'techId'
+ *   },
+ * });
+ */
+export function useDeleteJediSkillMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteJediSkillMutation,
+    DeleteJediSkillMutationVariables
+  >,
+) {
+  const options = {...defaultOptions, ...baseOptions};
+  return Apollo.useMutation<
+    DeleteJediSkillMutation,
+    DeleteJediSkillMutationVariables
+  >(DeleteJediSkillDocument, options);
+}
+export type DeleteJediSkillMutationHookResult = ReturnType<
+  typeof useDeleteJediSkillMutation
+>;
+export type DeleteJediSkillMutationResult =
+  Apollo.MutationResult<DeleteJediSkillMutation>;
+export type DeleteJediSkillMutationOptions = Apollo.BaseMutationOptions<
+  DeleteJediSkillMutation,
+  DeleteJediSkillMutationVariables
 >;

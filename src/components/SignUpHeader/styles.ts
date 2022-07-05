@@ -1,6 +1,9 @@
 import {StyleSheet} from 'react-native';
 
-const getContainerStyles = (showBackButton = false) =>
+const getContainerStyles = (
+  showBackButton = false,
+  disableBackButton = false,
+) =>
   StyleSheet.create({
     default: {
       height: 90,
@@ -14,6 +17,7 @@ const getContainerStyles = (showBackButton = false) =>
       position: 'absolute',
       width: '100%',
       zIndex: 1000,
+      opacity: disableBackButton ? 0.6 : 1,
     },
   }).default;
 

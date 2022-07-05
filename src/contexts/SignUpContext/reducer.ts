@@ -2,13 +2,36 @@ import {SignUpAction, SignUpActionTypes, SignUpState} from './types';
 
 const reducer = (state: SignUpState, action: SignUpAction) => {
   switch (action.type) {
-    case SignUpActionTypes.BASIC_DATA_PADAWAN:
-    case SignUpActionTypes.PERSONAL_DATA_PADAWAN:
-    case SignUpActionTypes.BASIC_DATA_JEDI:
-    case SignUpActionTypes.PERSONAL_DATA_JEDI:
-    case SignUpActionTypes.ABILITIES_JEDI:
-    case SignUpActionTypes.AVAILABILITY_JEDI:
-      return action.payload;
+    case SignUpActionTypes.SET_BASIC_DATA:
+      return {
+        ...state,
+        basicData: action.payload.basicData,
+        userType: action.payload.userType,
+      };
+
+    case SignUpActionTypes.SET_PERSONAL_DATA:
+      return state.userType === 'padawan'
+        ? {
+            ...state,
+            personalData: action.payload.personalData,
+          }
+        : {
+            ...state,
+            personalData: action.payload.personalData,
+            jedi: action.payload.jedi,
+          };
+
+    case SignUpActionTypes.SET_JEDI_SKILLS:
+      return {
+        ...state,
+        skills: action.payload.skills,
+      };
+
+    case SignUpActionTypes.SET_JEDI_AVAILABILITY:
+      return {
+        ...state,
+        availableDays: action.payload.availableDays,
+      };
   }
 };
 

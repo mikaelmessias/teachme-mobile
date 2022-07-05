@@ -1,20 +1,55 @@
+import {WeekdaysEnum} from '../../generated/graphql';
 import {SignUpActionTypes} from './types';
-import {SIGN_UP_INITIAL_STATE} from './utils';
 
-export const createBasicDataPadawan = (name: string, email: string) => ({
-  type: SignUpActionTypes.BASIC_DATA_PADAWAN,
+export const setUserBasicData = (
+  name: string,
+  email: string,
+  userType: string,
+) => ({
+  type: SignUpActionTypes.SET_BASIC_DATA,
   payload: {
-    padawan: {...SIGN_UP_INITIAL_STATE.padawan, name, email},
-    jedi: SIGN_UP_INITIAL_STATE.jedi,
-    userType: 'padawan',
+    basicData: {
+      name,
+      email,
+    },
+    userType,
   },
 });
 
-export const createBasicDataJedi = (name: string, email: string) => ({
-  type: SignUpActionTypes.BASIC_DATA_JEDI,
+export const setPersonalData = (
+  id: number,
+  birthdate: number,
+  cpf: string,
+  password: string,
+  biography: string,
+) => ({
+  type: SignUpActionTypes.SET_PERSONAL_DATA,
   payload: {
-    padawan: SIGN_UP_INITIAL_STATE.padawan,
-    jedi: {...SIGN_UP_INITIAL_STATE.jedi, name, email},
-    userType: 'jedi',
+    personalData: {birthdate, cpf, password, biography},
+    jedi: {id},
+  },
+});
+
+export const setJediSkills = (
+  skills: {
+    id: string;
+    tech: {
+      id: number;
+      title: string;
+      thumbnail: string;
+    };
+    price: number;
+  }[],
+) => ({
+  type: SignUpActionTypes.SET_JEDI_SKILLS,
+  payload: {
+    skills,
+  },
+});
+
+export const setJediAvailableDays = (availableDays: WeekdaysEnum[]) => ({
+  type: SignUpActionTypes.SET_PERSONAL_DATA,
+  payload: {
+    availableDays,
   },
 });

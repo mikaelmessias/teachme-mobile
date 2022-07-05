@@ -6,17 +6,14 @@ import WelcomeIcon from '../../assets/svg/welcome.svg';
 import Button from '../../components/Button/Button';
 import {RadioButton, TextInput} from 'react-native-paper';
 import useSignUp from '../../contexts/SignUpContext/useNavigation';
-import {
-  createBasicDataJedi,
-  createBasicDataPadawan,
-} from '../../contexts/SignUpContext/actions';
+import {setUserBasicData} from '../../contexts/SignUpContext/actions';
 import {useNavigation} from '@react-navigation/native';
 
 const SignUpScreen = () => {
   const {dispatch: signUpDispatch} = useSignUp();
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState('Mikael Pereira Messias');
+  const [email, setEmail] = useState('mikaelpmessias@gmail.com');
   const [userType, setUserType] = useState('padawan');
 
   const nav = useNavigation();
@@ -34,11 +31,7 @@ const SignUpScreen = () => {
   };
 
   const handleContinuePress = () => {
-    if (userType === 'padawan') {
-      signUpDispatch(createBasicDataPadawan(name, email));
-    } else {
-      signUpDispatch(createBasicDataJedi(name, email));
-    }
+    signUpDispatch(setUserBasicData(name, email, userType));
 
     nav.navigate('SignUpPersonalDataScreen');
   };
@@ -63,6 +56,7 @@ const SignUpScreen = () => {
             }
             outlineColor={'#B5B5B5'}
             style={styles.input}
+            value={name}
             onChangeText={handleTextChange}
           />
 
@@ -70,11 +64,10 @@ const SignUpScreen = () => {
             mode="outlined"
             label={'Email'}
             placeholder="Digite seu melhor email"
-            right={
-              <TextInput.Icon name="form-textbox-password" color={'#333'} />
-            }
+            right={<TextInput.Icon name="email-outline" color={'#333'} />}
             outlineColor={'#B5B5B5'}
             style={styles.input}
+            value={email}
             onChangeText={handleEmailChange}
           />
 

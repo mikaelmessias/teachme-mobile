@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View} from 'react-native';
 import SignUpHeader from '../../components/SignUpHeader/SignUpHeader';
 import styles from './styles';
@@ -7,6 +7,18 @@ import Button from '../../components/Button/Button';
 import {Text, TextInput} from 'react-native-paper';
 
 const LoginScreen = () => {
+  const [passwordSecureTextEntry, setPasswordSecureTextEntry] = useState(true);
+
+  const handlePasswordBlur = () => {
+    if (!passwordSecureTextEntry) {
+      setPasswordSecureTextEntry(true);
+    }
+  };
+
+  const handlePasswordIconPress = () => {
+    setPasswordSecureTextEntry(!passwordSecureTextEntry);
+  };
+
   return (
     <View style={styles.container}>
       <SignUpHeader showBackButton />
@@ -34,10 +46,16 @@ const LoginScreen = () => {
             label={'Senha'}
             placeholder="Digite uma senha"
             right={
-              <TextInput.Icon name="form-textbox-password" color={'#333'} />
+              <TextInput.Icon
+                onPress={handlePasswordIconPress}
+                name={passwordSecureTextEntry ? 'eye' : 'eye-off'}
+                color={'#333'}
+              />
             }
             outlineColor={'#B5B5B5'}
             style={styles.input}
+            secureTextEntry={passwordSecureTextEntry}
+            onBlur={handlePasswordBlur}
           />
         </View>
 

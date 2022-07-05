@@ -1,6 +1,15 @@
 import {StyleSheet} from 'react-native';
 
-const getButtonContainerStyles = (mode: 'blue' | 'simple' = 'simple') =>
+const styles = StyleSheet.create({
+  loadingIcon: {
+    marginLeft: 8,
+  },
+});
+
+const getButtonContainerStyles = (
+  mode: 'blue' | 'simple' = 'simple',
+  loading?: boolean,
+) =>
   StyleSheet.create({
     default: {
       height: 55,
@@ -10,6 +19,8 @@ const getButtonContainerStyles = (mode: 'blue' | 'simple' = 'simple') =>
       backgroundColor: mode === 'blue' ? '#6717D1' : '#FFFFFF',
       borderColor: mode === 'blue' ? '#FFFFFF' : '#B5B5B5',
       borderWidth: 1,
+      flexDirection: 'row',
+      opacity: loading ? 0.6 : 1,
     },
   }).default;
 
@@ -22,4 +33,4 @@ const getButtonTitleStyles = (mode: 'blue' | 'simple' = 'simple') =>
     },
   }).default;
 
-export default {getButtonContainerStyles, getButtonTitleStyles};
+export default {...styles, getButtonContainerStyles, getButtonTitleStyles};

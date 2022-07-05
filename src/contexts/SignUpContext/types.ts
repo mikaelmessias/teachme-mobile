@@ -1,4 +1,4 @@
-import {WeekdaysEnum} from '../../generated/graphql';
+import {UserTypeEnum, WeekdaysEnum} from '../../generated/graphql';
 
 export enum SignUpActionTypes {
   SET_BASIC_DATA = '@SignUp/SET_BASIC_DATA',
@@ -8,7 +8,7 @@ export enum SignUpActionTypes {
 }
 
 export interface SignUpState {
-  userType?: string;
+  userType?: UserTypeEnum;
 
   basicData?: {
     name: string;

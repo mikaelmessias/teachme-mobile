@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {View, Text, ScrollView, Keyboard} from 'react-native';
 import SignUpHeader from '../../components/SignUpHeader/SignUpHeader';
 import styles from './styles';
@@ -9,22 +9,14 @@ import {useNavigation} from '@react-navigation/native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import {setPersonalData} from '../../contexts/SignUpContext/actions';
-
-import {
-  useCreateJediMutation,
-  useCreatePadawanMutation,
-} from '../../generated/graphql';
+import {useCreateUserMutation, UserTypeEnum} from '../../generated/graphql';
 
 const SignUpPersonalDataScreen = () => {
   const {state: signUpState, dispatch: signUpDispatch} = useSignUp();
 
-  const [createPadawan, {loading: isPadawanCreating}] =
-    useCreatePadawanMutation();
-  const [createJedi, {loading: isJediCreating}] = useCreateJediMutation();
+  const [createUser, {loading}] = useCreateUserMutation();
 
   const nav = useNavigation();
-
-  const [loading, setLoading] = useState(false);
 
   const [birthdate, setBirthdate] = useState(new Date().getTime());
   const [cpf, setCpf] = useState('42033392864');
@@ -38,10 +30,6 @@ const SignUpPersonalDataScreen = () => {
   const [passwordSecureTextEntry, setPasswordSecureTextEntry] = useState(true);
   const [confirmPasswordSecureTextEntry, setConfirmPasswordSecureTextEntry] =
     useState(true);
-
-  useEffect(() => {
-    setLoading(isPadawanCreating || isJediCreating);
-  }, [isPadawanCreating, isJediCreating]);
 
   const getUserName = () => {
     if (signUpState.basicData) {
@@ -105,28 +93,28 @@ const SignUpPersonalDataScreen = () => {
       password: password,
       birthdate: birthdate,
       biography: biography,
+      userType: signUpState.userType!,
     };
 
     try {
-      if (signUpState.userType === 'padawan') {
-        await createPadawan({variables});
-        nav.navigate('SignUpFinishedScreen');
-      } else {
-        const {data} = await createJedi({variables});
+      const {data} = await createUser({variables});
 
-        if (data && data.jedi_create) {
-          signUpDispatch(
-            setPersonalData(
-              data.jedi_create.id,
-              birthdate,
-              cpf,
-              password,
-              biography,
-            ),
-          );
+      if (data && data.user_create) {
+        signUpDispatch(
+          setPersonalData(
+            data.user_create.id,
+            birthdate,
+            cpf,
+            password,
+            biography,
+          ),
+        );
+
+        if (signUpState.userType === UserTypeEnum.Padawan) {
+          nav.navigate('SignUpFinishedScreen');
+        } else {
+          nav.navigate('SignUpSkillsScreen');
         }
-
-        nav.navigate('SignUpSkillsScreen');
       }
     } catch (e) {
       console.log('Ocorreu uma falha ao criar o usuário');

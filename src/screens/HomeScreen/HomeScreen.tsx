@@ -1,12 +1,31 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Image, ImageBackground, Text, View, ScrollView} from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 import Button from '../../components/Button/Button';
 
 import {styles} from './styles';
 
 const HomeScreen = () => {
   const nav = useNavigation();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const userId = await AsyncStorage.getItem('@userId');
+        const userType = await AsyncStorage.getItem('@userType');
+
+        if (userId && userType) {
+          nav.navigate('NotificationScreen');
+        }
+      } catch (e) {
+        console.log();
+      }
+
+      SplashScreen.hide();
+    })();
+  }, [nav]);
 
   const handleSignUpPress = () => {
     nav.navigate('SignUpScreen');

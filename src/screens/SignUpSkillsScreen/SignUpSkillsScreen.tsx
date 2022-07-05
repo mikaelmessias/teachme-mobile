@@ -105,7 +105,6 @@ const SignUpSkillsScreen = () => {
 
   const handlePickerFocus = () => {
     if (!data || !data.tech_list_all.length) {
-      console.log('refetching');
       refetch();
     }
   };

@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react';
-import {FlatList, ScrollView, Text} from 'react-native';
+import {FlatList, ScrollView, Text, View} from 'react-native';
 import ItemNotification from '../../components/ItemNotification/ItemNotification';
 import ItemSolicitation from '../../components/ItemSolicitation/ItemSolicitation';
 
@@ -30,7 +30,7 @@ const NotificationScreen: FunctionComponent = () => {
   };
 
   return (
-    <ScrollView style={styles.scrollView}>
+    <View style={styles.scrollView}>
       <Text style={styles.title}>Solicitações</Text>
 
       <FlatList
@@ -59,7 +59,7 @@ const NotificationScreen: FunctionComponent = () => {
           />
         )}
       />
-    </ScrollView>
+    </View>
   );
 };
 

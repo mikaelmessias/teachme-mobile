@@ -8,13 +8,14 @@ import {RadioButton, TextInput} from 'react-native-paper';
 import useSignUp from '../../contexts/SignUpContext/useNavigation';
 import {setUserBasicData} from '../../contexts/SignUpContext/actions';
 import {useNavigation} from '@react-navigation/native';
+import {UserTypeEnum} from '../../generated/graphql';
 
 const SignUpScreen = () => {
   const {dispatch: signUpDispatch} = useSignUp();
 
   const [name, setName] = useState('Mikael Pereira Messias');
   const [email, setEmail] = useState('mikaelpmessias@gmail.com');
-  const [userType, setUserType] = useState('padawan');
+  const [userType, setUserType] = useState<UserTypeEnum>(UserTypeEnum.Padawan);
 
   const nav = useNavigation();
 
@@ -27,7 +28,7 @@ const SignUpScreen = () => {
   };
 
   const handleUserTypeChange = (newUserType: string) => {
-    setUserType(newUserType);
+    setUserType(newUserType as UserTypeEnum);
   };
 
   const handleContinuePress = () => {
@@ -85,11 +86,11 @@ const SignUpScreen = () => {
             >
               <View style={styles.radioGroup}>
                 <View style={styles.radioButtonContainer}>
-                  <RadioButton value="padawan" color="#6717D1" />
+                  <RadioButton value={UserTypeEnum.Padawan} color="#6717D1" />
                   <Text style={styles.radioButtonLabel}>Preciso de ajuda</Text>
                 </View>
                 <View style={styles.radioButtonContainer}>
-                  <RadioButton value="jedi" color="#6717D1" />
+                  <RadioButton value={UserTypeEnum.Jedi} color="#6717D1" />
                   <Text style={styles.radioButtonLabel}>Quero ajudar</Text>
                 </View>
               </View>

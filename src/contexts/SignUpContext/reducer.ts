@@ -1,3 +1,4 @@
+import {UserTypeEnum} from '../../generated/graphql';
 import {SignUpAction, SignUpActionTypes, SignUpState} from './types';
 
 const reducer = (state: SignUpState, action: SignUpAction) => {
@@ -10,7 +11,7 @@ const reducer = (state: SignUpState, action: SignUpAction) => {
       };
 
     case SignUpActionTypes.SET_PERSONAL_DATA:
-      return state.userType === 'padawan'
+      return state.userType === UserTypeEnum.Padawan
         ? {
             ...state,
             personalData: action.payload.personalData,

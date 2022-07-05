@@ -1,10 +1,10 @@
-import {WeekdaysEnum} from '../../generated/graphql';
+import {UserTypeEnum, WeekdaysEnum} from '../../generated/graphql';
 import {SignUpActionTypes} from './types';
 
 export const setUserBasicData = (
   name: string,
   email: string,
-  userType: string,
+  userType: UserTypeEnum,
 ) => ({
   type: SignUpActionTypes.SET_BASIC_DATA,
   payload: {
@@ -47,7 +47,7 @@ export const setJediSkills = (
   },
 });
 
-export const setJediAvailableDays = (availableDays: WeekdaysEnum[]) => ({
+export const setJediAvailableDays = (availableDays?: WeekdaysEnum[]) => ({
   type: SignUpActionTypes.SET_PERSONAL_DATA,
   payload: {
     availableDays,

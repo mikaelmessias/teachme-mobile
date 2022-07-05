@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {FlatList, TouchableOpacity, View} from 'react-native';
 import SignUpHeader from '../../components/SignUpHeader/SignUpHeader';
 import styles from './styles';
@@ -40,10 +40,6 @@ const SignUpAvailabilityScreen = () => {
       }
     }
   };
-
-  useEffect(() => {
-    console.log('selectedDays', selectedDays);
-  }, [selectedDays]);
 
   const handleDayItemPress = (newDay: WeekdaysEnum) => {
     let newSelectedDays: WeekdaysEnum[];

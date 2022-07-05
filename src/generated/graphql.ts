@@ -20,9 +20,9 @@ export type BookingEntity = {
   createdAt: Scalars['Float'];
   date: Scalars['Float'];
   id: Scalars['Float'];
-  jedi: JediEntity;
+  jedi: UserEntity;
   jediId: Scalars['Float'];
-  padawan: PadawanEntity;
+  padawan: UserEntity;
   padawanId: Scalars['Float'];
   status: BookingStatusEnum;
   tech: TechEntity;
@@ -49,23 +49,18 @@ export type CreateJediAvailabilityInput = {
   jediId: Scalars['Float'];
 };
 
-export type CreateJediInput = {
-  avatar?: InputMaybe<Scalars['String']>;
-  biography?: InputMaybe<Scalars['String']>;
-  birthdate?: InputMaybe<Scalars['Float']>;
-  cpf: Scalars['String'];
-  email: Scalars['String'];
-  name: Scalars['String'];
-  password: Scalars['String'];
-};
-
 export type CreateJediSkillInput = {
   jediId: Scalars['Float'];
   price: Scalars['Float'];
   techId: Scalars['Float'];
 };
 
-export type CreatePadawanInput = {
+export type CreateTechInput = {
+  thumbnail: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type CreateUserInput = {
   avatar?: InputMaybe<Scalars['String']>;
   biography?: InputMaybe<Scalars['String']>;
   birthdate?: InputMaybe<Scalars['Float']>;
@@ -73,11 +68,7 @@ export type CreatePadawanInput = {
   email: Scalars['String'];
   name: Scalars['String'];
   password: Scalars['String'];
-};
-
-export type CreateTechInput = {
-  thumbnail: Scalars['String'];
-  title: Scalars['String'];
+  userType: UserTypeEnum;
 };
 
 export type DeleteJediSkillInput = {
@@ -90,25 +81,8 @@ export type JediAvailabilityEntity = {
   createdAt: Scalars['Float'];
   day: WeekdaysEnum;
   id: Scalars['String'];
-  jedi: JediEntity;
+  jedi: UserEntity;
   jediId: Scalars['Float'];
-  updatedAt: Scalars['Float'];
-};
-
-export type JediEntity = {
-  __typename?: 'JediEntity';
-  availability?: Maybe<Array<JediAvailabilityEntity>>;
-  avatar?: Maybe<Scalars['String']>;
-  biography?: Maybe<Scalars['String']>;
-  birthdate?: Maybe<Scalars['Float']>;
-  bookings?: Maybe<Array<BookingEntity>>;
-  cpf: Scalars['String'];
-  createdAt: Scalars['Float'];
-  email: Scalars['String'];
-  id: Scalars['Float'];
-  name: Scalars['String'];
-  password: Scalars['String'];
-  skills?: Maybe<Array<JediSkillEntity>>;
   updatedAt: Scalars['Float'];
 };
 
@@ -116,7 +90,7 @@ export type JediSkillEntity = {
   __typename?: 'JediSkillEntity';
   createdAt: Scalars['Float'];
   id: Scalars['String'];
-  jedi: JediEntity;
+  jedi: UserEntity;
   jediId: Scalars['Float'];
   price: Scalars['Float'];
   tech: TechEntity;
@@ -129,19 +103,16 @@ export type Mutation = {
   booking_create: BookingEntity;
   booking_delete_single: Scalars['Boolean'];
   booking_update_status: Scalars['Boolean'];
-  jedi_availability_update: JediEntity;
-  jedi_create: JediEntity;
-  jedi_delete_single: Scalars['Boolean'];
-  jedi_skill_create: JediEntity;
-  jedi_skill_delete_single: JediEntity;
-  jedi_update: JediEntity;
-  padawan_create: PadawanEntity;
-  padawan_delete_single: Scalars['Boolean'];
-  padawan_update: PadawanEntity;
+  jedi_availability_update: UserEntity;
+  jedi_skill_create: UserEntity;
+  jedi_skill_delete_single: UserEntity;
   tech_create: TechEntity;
   tech_delete_all?: Maybe<Array<TechEntity>>;
   tech_delete_single: Scalars['Boolean'];
   tech_update: TechEntity;
+  user_create: UserEntity;
+  user_delete_single: Scalars['Boolean'];
+  user_update: UserEntity;
 };
 
 
@@ -165,16 +136,6 @@ export type MutationJedi_Availability_UpdateArgs = {
 };
 
 
-export type MutationJedi_CreateArgs = {
-  jedi: CreateJediInput;
-};
-
-
-export type MutationJedi_Delete_SingleArgs = {
-  id: Scalars['Float'];
-};
-
-
 export type MutationJedi_Skill_CreateArgs = {
   jediSkill: CreateJediSkillInput;
 };
@@ -182,26 +143,6 @@ export type MutationJedi_Skill_CreateArgs = {
 
 export type MutationJedi_Skill_Delete_SingleArgs = {
   jediSkill: DeleteJediSkillInput;
-};
-
-
-export type MutationJedi_UpdateArgs = {
-  jedi: UpdateJediInput;
-};
-
-
-export type MutationPadawan_CreateArgs = {
-  padawan: CreatePadawanInput;
-};
-
-
-export type MutationPadawan_Delete_SingleArgs = {
-  id: Scalars['Float'];
-};
-
-
-export type MutationPadawan_UpdateArgs = {
-  padawan: UpdatePadawanInput;
 };
 
 
@@ -219,19 +160,19 @@ export type MutationTech_UpdateArgs = {
   tech: UpdateTechInput;
 };
 
-export type PadawanEntity = {
-  __typename?: 'PadawanEntity';
-  avatar?: Maybe<Scalars['String']>;
-  biography?: Maybe<Scalars['String']>;
-  birthdate?: Maybe<Scalars['Float']>;
-  bookings?: Maybe<Array<BookingEntity>>;
-  cpf: Scalars['String'];
-  createdAt: Scalars['Float'];
-  email: Scalars['String'];
+
+export type MutationUser_CreateArgs = {
+  user: CreateUserInput;
+};
+
+
+export type MutationUser_Delete_SingleArgs = {
   id: Scalars['Float'];
-  name: Scalars['String'];
-  password: Scalars['String'];
-  updatedAt: Scalars['Float'];
+};
+
+
+export type MutationUser_UpdateArgs = {
+  user: UpdateUserInput;
 };
 
 export type Query = {
@@ -240,13 +181,12 @@ export type Query = {
   booking_list_by_jedi_id: Array<BookingEntity>;
   booking_list_by_padawan_id: Array<BookingEntity>;
   booking_list_single: BookingEntity;
-  jedi_list_all: Array<JediEntity>;
-  jedi_list_single?: Maybe<JediEntity>;
-  padawan_list_all: Array<PadawanEntity>;
-  padawan_list_single?: Maybe<PadawanEntity>;
   tech_list_all: Array<TechEntity>;
   tech_list_by_title: Array<TechEntity>;
   tech_list_single?: Maybe<TechEntity>;
+  user_list_all: Array<UserEntity>;
+  user_list_single?: Maybe<UserEntity>;
+  user_login?: Maybe<UserEntity>;
 };
 
 
@@ -265,16 +205,6 @@ export type QueryBooking_List_SingleArgs = {
 };
 
 
-export type QueryJedi_List_SingleArgs = {
-  id: Scalars['Float'];
-};
-
-
-export type QueryPadawan_List_SingleArgs = {
-  id: Scalars['Float'];
-};
-
-
 export type QueryTech_List_By_TitleArgs = {
   title: Scalars['String'];
 };
@@ -282,6 +212,16 @@ export type QueryTech_List_By_TitleArgs = {
 
 export type QueryTech_List_SingleArgs = {
   id: Scalars['Float'];
+};
+
+
+export type QueryUser_List_SingleArgs = {
+  id: Scalars['Float'];
+};
+
+
+export type QueryUser_LoginArgs = {
+  login: UserLoginInput;
 };
 
 export type TechEntity = {
@@ -299,26 +239,46 @@ export type UpdateBookingStatus = {
   status: Scalars['String'];
 };
 
-export type UpdateJediInput = {
-  avatar?: InputMaybe<Scalars['String']>;
-  biography?: InputMaybe<Scalars['String']>;
-  birthdate?: InputMaybe<Scalars['Float']>;
-  id: Scalars['Float'];
-  name?: InputMaybe<Scalars['String']>;
-};
-
-export type UpdatePadawanInput = {
-  avatar?: InputMaybe<Scalars['String']>;
-  biography?: InputMaybe<Scalars['String']>;
-  birthdate?: InputMaybe<Scalars['Float']>;
-  id: Scalars['Float'];
-  name?: InputMaybe<Scalars['String']>;
-};
-
 export type UpdateTechInput = {
   id: Scalars['Float'];
   thumbnail: Scalars['String'];
 };
+
+export type UpdateUserInput = {
+  avatar?: InputMaybe<Scalars['String']>;
+  biography?: InputMaybe<Scalars['String']>;
+  birthdate?: InputMaybe<Scalars['Float']>;
+  id: Scalars['Float'];
+  name?: InputMaybe<Scalars['String']>;
+};
+
+export type UserEntity = {
+  __typename?: 'UserEntity';
+  availability?: Maybe<Array<JediAvailabilityEntity>>;
+  avatar?: Maybe<Scalars['String']>;
+  biography?: Maybe<Scalars['String']>;
+  birthdate?: Maybe<Scalars['Float']>;
+  bookings?: Maybe<Array<BookingEntity>>;
+  cpf: Scalars['String'];
+  createdAt: Scalars['Float'];
+  email: Scalars['String'];
+  id: Scalars['Float'];
+  name: Scalars['String'];
+  password: Scalars['String'];
+  skills?: Maybe<Array<JediSkillEntity>>;
+  updatedAt: Scalars['Float'];
+  userType: UserTypeEnum;
+};
+
+export type UserLoginInput = {
+  email?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+};
+
+export enum UserTypeEnum {
+  Jedi = 'JEDI',
+  Padawan = 'PADAWAN'
+}
 
 export enum WeekdaysEnum {
   Friday = 'FRIDAY',
@@ -330,29 +290,34 @@ export enum WeekdaysEnum {
   Wednesday = 'WEDNESDAY'
 }
 
-export type CreatePadawanMutationVariables = Exact<{
+export type UserLoginQueryVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type UserLoginQuery = { __typename?: 'Query', user_login?: { __typename?: 'UserEntity', id: number, userType: UserTypeEnum } | null };
+
+export type CreateJediAvailabilityMutationVariables = Exact<{
+  jediId: Scalars['Float'];
+  days: Array<WeekdaysEnum> | WeekdaysEnum;
+}>;
+
+
+export type CreateJediAvailabilityMutation = { __typename?: 'Mutation', jedi_availability_update: { __typename?: 'UserEntity', id: number, availability?: Array<{ __typename?: 'JediAvailabilityEntity', id: string, day: WeekdaysEnum }> | null } };
+
+export type CreateUserMutationVariables = Exact<{
   name: Scalars['String'];
   email: Scalars['String'];
   cpf: Scalars['String'];
   password: Scalars['String'];
   birthdate?: InputMaybe<Scalars['Float']>;
   biography?: InputMaybe<Scalars['String']>;
+  userType: UserTypeEnum;
 }>;
 
 
-export type CreatePadawanMutation = { __typename?: 'Mutation', padawan_create: { __typename?: 'PadawanEntity', id: number, name: string } };
-
-export type CreateJediMutationVariables = Exact<{
-  name: Scalars['String'];
-  email: Scalars['String'];
-  cpf: Scalars['String'];
-  password: Scalars['String'];
-  birthdate?: InputMaybe<Scalars['Float']>;
-  biography?: InputMaybe<Scalars['String']>;
-}>;
-
-
-export type CreateJediMutation = { __typename?: 'Mutation', jedi_create: { __typename?: 'JediEntity', id: number, name: string } };
+export type CreateUserMutation = { __typename?: 'Mutation', user_create: { __typename?: 'UserEntity', id: number, name: string } };
 
 export type CreateJediSkillMutationVariables = Exact<{
   jediId: Scalars['Float'];
@@ -361,12 +326,7 @@ export type CreateJediSkillMutationVariables = Exact<{
 }>;
 
 
-export type CreateJediSkillMutation = { __typename?: 'Mutation', jedi_skill_create: { __typename?: 'JediEntity', id: number, skills?: Array<{ __typename?: 'JediSkillEntity', id: string, price: number, tech: { __typename?: 'TechEntity', id: number, title: string, thumbnail: string } }> | null } };
-
-export type TechListAllQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type TechListAllQuery = { __typename?: 'Query', tech_list_all: Array<{ __typename?: 'TechEntity', id: number, title: string, thumbnail: string }> };
+export type CreateJediSkillMutation = { __typename?: 'Mutation', jedi_skill_create: { __typename?: 'UserEntity', id: number, skills?: Array<{ __typename?: 'JediSkillEntity', id: string, price: number, tech: { __typename?: 'TechEntity', id: number, title: string, thumbnail: string } }> | null } };
 
 export type DeleteJediSkillMutationVariables = Exact<{
   jediId: Scalars['Float'];
@@ -374,41 +334,113 @@ export type DeleteJediSkillMutationVariables = Exact<{
 }>;
 
 
-export type DeleteJediSkillMutation = { __typename?: 'Mutation', jedi_skill_delete_single: { __typename?: 'JediEntity', id: number, skills?: Array<{ __typename?: 'JediSkillEntity', id: string, price: number, tech: { __typename?: 'TechEntity', id: number, title: string, thumbnail: string } }> | null } };
+export type DeleteJediSkillMutation = { __typename?: 'Mutation', jedi_skill_delete_single: { __typename?: 'UserEntity', id: number, skills?: Array<{ __typename?: 'JediSkillEntity', id: string, price: number, tech: { __typename?: 'TechEntity', id: number, title: string, thumbnail: string } }> | null } };
 
-export type CreateJediAvailabilityMutationVariables = Exact<{
-  jediId: Scalars['Float'];
-  days: Array<WeekdaysEnum> | WeekdaysEnum;
-}>;
+export type TechListAllQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CreateJediAvailabilityMutation = { __typename?: 'Mutation', jedi_availability_update: { __typename?: 'JediEntity', id: number, availability?: Array<{ __typename?: 'JediAvailabilityEntity', id: string, day: WeekdaysEnum }> | null } };
+export type TechListAllQuery = { __typename?: 'Query', tech_list_all: Array<{ __typename?: 'TechEntity', id: number, title: string, thumbnail: string }> };
 
 
-export const CreatePadawanDocument = gql`
-    mutation CreatePadawan($name: String!, $email: String!, $cpf: String!, $password: String!, $birthdate: Float, $biography: String) {
-  padawan_create(
-    padawan: {name: $name, email: $email, cpf: $cpf, password: $password, birthdate: $birthdate, biography: $biography}
-  ) {
+export const UserLoginDocument = gql`
+    query UserLogin($email: String!, $password: String!) {
+  user_login(login: {email: $email, password: $password}) {
     id
-    name
+    userType
   }
 }
     `;
-export type CreatePadawanMutationFn = Apollo.MutationFunction<CreatePadawanMutation, CreatePadawanMutationVariables>;
 
 /**
- * __useCreatePadawanMutation__
+ * __useUserLoginQuery__
  *
- * To run a mutation, you first call `useCreatePadawanMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreatePadawanMutation` returns a tuple that includes:
+ * To run a query within a React component, call `useUserLoginQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserLoginQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserLoginQuery({
+ *   variables: {
+ *      email: // value for 'email'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useUserLoginQuery(baseOptions: Apollo.QueryHookOptions<UserLoginQuery, UserLoginQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserLoginQuery, UserLoginQueryVariables>(UserLoginDocument, options);
+      }
+export function useUserLoginLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserLoginQuery, UserLoginQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserLoginQuery, UserLoginQueryVariables>(UserLoginDocument, options);
+        }
+export type UserLoginQueryHookResult = ReturnType<typeof useUserLoginQuery>;
+export type UserLoginLazyQueryHookResult = ReturnType<typeof useUserLoginLazyQuery>;
+export type UserLoginQueryResult = Apollo.QueryResult<UserLoginQuery, UserLoginQueryVariables>;
+export const CreateJediAvailabilityDocument = gql`
+    mutation CreateJediAvailability($jediId: Float!, $days: [WeekdaysEnum!]!) {
+  jedi_availability_update(jediAvailability: {jediId: $jediId, days: $days}) {
+    id
+    availability {
+      id
+      day
+    }
+  }
+}
+    `;
+export type CreateJediAvailabilityMutationFn = Apollo.MutationFunction<CreateJediAvailabilityMutation, CreateJediAvailabilityMutationVariables>;
+
+/**
+ * __useCreateJediAvailabilityMutation__
+ *
+ * To run a mutation, you first call `useCreateJediAvailabilityMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateJediAvailabilityMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createPadawanMutation, { data, loading, error }] = useCreatePadawanMutation({
+ * const [createJediAvailabilityMutation, { data, loading, error }] = useCreateJediAvailabilityMutation({
+ *   variables: {
+ *      jediId: // value for 'jediId'
+ *      days: // value for 'days'
+ *   },
+ * });
+ */
+export function useCreateJediAvailabilityMutation(baseOptions?: Apollo.MutationHookOptions<CreateJediAvailabilityMutation, CreateJediAvailabilityMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateJediAvailabilityMutation, CreateJediAvailabilityMutationVariables>(CreateJediAvailabilityDocument, options);
+      }
+export type CreateJediAvailabilityMutationHookResult = ReturnType<typeof useCreateJediAvailabilityMutation>;
+export type CreateJediAvailabilityMutationResult = Apollo.MutationResult<CreateJediAvailabilityMutation>;
+export type CreateJediAvailabilityMutationOptions = Apollo.BaseMutationOptions<CreateJediAvailabilityMutation, CreateJediAvailabilityMutationVariables>;
+export const CreateUserDocument = gql`
+    mutation CreateUser($name: String!, $email: String!, $cpf: String!, $password: String!, $birthdate: Float, $biography: String, $userType: UserTypeEnum!) {
+  user_create(
+    user: {name: $name, email: $email, cpf: $cpf, password: $password, birthdate: $birthdate, biography: $biography, userType: $userType}
+  ) {
+    id
+    name
+  }
+}
+    `;
+export type CreateUserMutationFn = Apollo.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
+
+/**
+ * __useCreateUserMutation__
+ *
+ * To run a mutation, you first call `useCreateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createUserMutation, { data, loading, error }] = useCreateUserMutation({
  *   variables: {
  *      name: // value for 'name'
  *      email: // value for 'email'
@@ -416,57 +448,17 @@ export type CreatePadawanMutationFn = Apollo.MutationFunction<CreatePadawanMutat
  *      password: // value for 'password'
  *      birthdate: // value for 'birthdate'
  *      biography: // value for 'biography'
+ *      userType: // value for 'userType'
  *   },
  * });
  */
-export function useCreatePadawanMutation(baseOptions?: Apollo.MutationHookOptions<CreatePadawanMutation, CreatePadawanMutationVariables>) {
+export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreatePadawanMutation, CreatePadawanMutationVariables>(CreatePadawanDocument, options);
+        return Apollo.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, options);
       }
-export type CreatePadawanMutationHookResult = ReturnType<typeof useCreatePadawanMutation>;
-export type CreatePadawanMutationResult = Apollo.MutationResult<CreatePadawanMutation>;
-export type CreatePadawanMutationOptions = Apollo.BaseMutationOptions<CreatePadawanMutation, CreatePadawanMutationVariables>;
-export const CreateJediDocument = gql`
-    mutation CreateJedi($name: String!, $email: String!, $cpf: String!, $password: String!, $birthdate: Float, $biography: String) {
-  jedi_create(
-    jedi: {name: $name, email: $email, cpf: $cpf, password: $password, birthdate: $birthdate, biography: $biography}
-  ) {
-    id
-    name
-  }
-}
-    `;
-export type CreateJediMutationFn = Apollo.MutationFunction<CreateJediMutation, CreateJediMutationVariables>;
-
-/**
- * __useCreateJediMutation__
- *
- * To run a mutation, you first call `useCreateJediMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateJediMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createJediMutation, { data, loading, error }] = useCreateJediMutation({
- *   variables: {
- *      name: // value for 'name'
- *      email: // value for 'email'
- *      cpf: // value for 'cpf'
- *      password: // value for 'password'
- *      birthdate: // value for 'birthdate'
- *      biography: // value for 'biography'
- *   },
- * });
- */
-export function useCreateJediMutation(baseOptions?: Apollo.MutationHookOptions<CreateJediMutation, CreateJediMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateJediMutation, CreateJediMutationVariables>(CreateJediDocument, options);
-      }
-export type CreateJediMutationHookResult = ReturnType<typeof useCreateJediMutation>;
-export type CreateJediMutationResult = Apollo.MutationResult<CreateJediMutation>;
-export type CreateJediMutationOptions = Apollo.BaseMutationOptions<CreateJediMutation, CreateJediMutationVariables>;
+export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
+export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
+export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
 export const CreateJediSkillDocument = gql`
     mutation CreateJediSkill($jediId: Float!, $techId: Float!, $price: Float!) {
   jedi_skill_create(jediSkill: {jediId: $jediId, techId: $techId, price: $price}) {
@@ -511,42 +503,6 @@ export function useCreateJediSkillMutation(baseOptions?: Apollo.MutationHookOpti
 export type CreateJediSkillMutationHookResult = ReturnType<typeof useCreateJediSkillMutation>;
 export type CreateJediSkillMutationResult = Apollo.MutationResult<CreateJediSkillMutation>;
 export type CreateJediSkillMutationOptions = Apollo.BaseMutationOptions<CreateJediSkillMutation, CreateJediSkillMutationVariables>;
-export const TechListAllDocument = gql`
-    query TechListAll {
-  tech_list_all {
-    id
-    title
-    thumbnail
-  }
-}
-    `;
-
-/**
- * __useTechListAllQuery__
- *
- * To run a query within a React component, call `useTechListAllQuery` and pass it any options that fit your needs.
- * When your component renders, `useTechListAllQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useTechListAllQuery({
- *   variables: {
- *   },
- * });
- */
-export function useTechListAllQuery(baseOptions?: Apollo.QueryHookOptions<TechListAllQuery, TechListAllQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<TechListAllQuery, TechListAllQueryVariables>(TechListAllDocument, options);
-      }
-export function useTechListAllLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TechListAllQuery, TechListAllQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<TechListAllQuery, TechListAllQueryVariables>(TechListAllDocument, options);
-        }
-export type TechListAllQueryHookResult = ReturnType<typeof useTechListAllQuery>;
-export type TechListAllLazyQueryHookResult = ReturnType<typeof useTechListAllLazyQuery>;
-export type TechListAllQueryResult = Apollo.QueryResult<TechListAllQuery, TechListAllQueryVariables>;
 export const DeleteJediSkillDocument = gql`
     mutation DeleteJediSkill($jediId: Float!, $techId: Float!) {
   jedi_skill_delete_single(jediSkill: {jediId: $jediId, techId: $techId}) {
@@ -590,41 +546,39 @@ export function useDeleteJediSkillMutation(baseOptions?: Apollo.MutationHookOpti
 export type DeleteJediSkillMutationHookResult = ReturnType<typeof useDeleteJediSkillMutation>;
 export type DeleteJediSkillMutationResult = Apollo.MutationResult<DeleteJediSkillMutation>;
 export type DeleteJediSkillMutationOptions = Apollo.BaseMutationOptions<DeleteJediSkillMutation, DeleteJediSkillMutationVariables>;
-export const CreateJediAvailabilityDocument = gql`
-    mutation CreateJediAvailability($jediId: Float!, $days: [WeekdaysEnum!]!) {
-  jedi_availability_update(jediAvailability: {jediId: $jediId, days: $days}) {
+export const TechListAllDocument = gql`
+    query TechListAll {
+  tech_list_all {
     id
-    availability {
-      id
-      day
-    }
+    title
+    thumbnail
   }
 }
     `;
-export type CreateJediAvailabilityMutationFn = Apollo.MutationFunction<CreateJediAvailabilityMutation, CreateJediAvailabilityMutationVariables>;
 
 /**
- * __useCreateJediAvailabilityMutation__
+ * __useTechListAllQuery__
  *
- * To run a mutation, you first call `useCreateJediAvailabilityMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateJediAvailabilityMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
+ * To run a query within a React component, call `useTechListAllQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTechListAllQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const [createJediAvailabilityMutation, { data, loading, error }] = useCreateJediAvailabilityMutation({
+ * const { data, loading, error } = useTechListAllQuery({
  *   variables: {
- *      jediId: // value for 'jediId'
- *      days: // value for 'days'
  *   },
  * });
  */
-export function useCreateJediAvailabilityMutation(baseOptions?: Apollo.MutationHookOptions<CreateJediAvailabilityMutation, CreateJediAvailabilityMutationVariables>) {
+export function useTechListAllQuery(baseOptions?: Apollo.QueryHookOptions<TechListAllQuery, TechListAllQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateJediAvailabilityMutation, CreateJediAvailabilityMutationVariables>(CreateJediAvailabilityDocument, options);
+        return Apollo.useQuery<TechListAllQuery, TechListAllQueryVariables>(TechListAllDocument, options);
       }
-export type CreateJediAvailabilityMutationHookResult = ReturnType<typeof useCreateJediAvailabilityMutation>;
-export type CreateJediAvailabilityMutationResult = Apollo.MutationResult<CreateJediAvailabilityMutation>;
-export type CreateJediAvailabilityMutationOptions = Apollo.BaseMutationOptions<CreateJediAvailabilityMutation, CreateJediAvailabilityMutationVariables>;
+export function useTechListAllLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TechListAllQuery, TechListAllQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TechListAllQuery, TechListAllQueryVariables>(TechListAllDocument, options);
+        }
+export type TechListAllQueryHookResult = ReturnType<typeof useTechListAllQuery>;
+export type TechListAllLazyQueryHookResult = ReturnType<typeof useTechListAllLazyQuery>;
+export type TechListAllQueryResult = Apollo.QueryResult<TechListAllQuery, TechListAllQueryVariables>;

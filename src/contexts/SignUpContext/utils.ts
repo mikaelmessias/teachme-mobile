@@ -1,7 +1,8 @@
+import {UserTypeEnum} from '../../generated/graphql';
 import {SignUpState} from './types';
 
 export const SIGN_UP_INITIAL_STATE: SignUpState = {
-  userType: '',
+  userType: UserTypeEnum.Padawan,
   basicData: {
     name: '',
     email: '',

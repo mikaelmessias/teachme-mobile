@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
   },
   status: {
     fontSize: 14,
-    color: '#707070'
+    color: '#707070',
   },
   containerButtons: {
     flexDirection: 'row',

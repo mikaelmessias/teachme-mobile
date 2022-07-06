@@ -17,16 +17,15 @@ import {useGetUserLazyQuery} from '../../generated/graphql';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {iUser} from './iUser';
 import {weekdays} from '../../helpers/weekdays';
-import {Newstyles, getDayItemContainer} from '../ScheduleScreen/styles';
+import {Newstyles, getDayItemContainer} from './styles';
 import utils from '../SignUpSkillsScreen/utils';
+import moment from 'moment';
 
 const ProfileScreen = () => {
   const nav = useNavigation();
 
   var [isPressAbility, setIsPressAbility] = React.useState(true);
   var [isPressAvailability, setIsPressAvailability] = React.useState(false);
-
-  const [availability, setAvailability] = React.useState(new Map());
 
   const [getUser] = useGetUserLazyQuery();
   const [userData, setUserData] = React.useState<iUser>();
@@ -57,15 +56,6 @@ const ProfileScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        <Button
-          style={styles.editButton}
-          uppercase={false}
-          mode="outlined"
-          color="#2A2A2A"
-        >
-          Editar dados
-        </Button>
-
         <Image
           style={styles.imgProfile}
           source={require('../../assets/jon-snow.jpeg')}
@@ -78,7 +68,9 @@ const ProfileScreen = () => {
         <View style={styles.content}>
           <Text style={styles.title}>DATA DE NASCIMENTO</Text>
 
-          <Text style={styles.description}>{userData?.birthdate}</Text>
+          <Text style={styles.description}>
+            {moment(userData?.birthdate).format('DD/MM/YYYY')}
+          </Text>
         </View>
 
         <View style={styles.content}>

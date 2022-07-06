@@ -9,9 +9,7 @@ import SignUpPersonalDataScreen from '../screens/SignUpPersonalDataScreen/SignUp
 import SignUpFinishedScreen from '../screens/SignUpFinishedScreen/SignUpFinishedScreen';
 import SignUpSkillsScreen from '../screens/SignUpSkillsScreen/SignUpSkillsScreen';
 import SignUpAvailabilityScreen from '../screens/SignUpAvailabilityScreen/SignUpAvailabilityScreen';
-import NotificationScreen from '../screens/NotificationScreen/NotificationScreen';
-import ScheduleScreen from '../screens/ScheduleScreen/ScheduleScreen';
-import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
+import BottomTabNavigator from '../components/BottomTabNavigator/BottomTabNavigator';
 
 const Stack = createNativeStackNavigator<iRootStackParamList>();
 
@@ -45,11 +43,9 @@ const Navigator = () => {
         />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen
-          name="NotificationScreen"
-          component={NotificationScreen}
+          name="BottomTabNavigator"
+          component={BottomTabNavigator}
         />
-        <Stack.Screen name="ScheduleScreen" component={ScheduleScreen} />
-        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

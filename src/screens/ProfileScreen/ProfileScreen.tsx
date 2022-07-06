@@ -42,8 +42,6 @@ const ProfileScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        <SignUpHeader showBackButton />
-
         <Button
           style={styles.editButton}
           uppercase={false}

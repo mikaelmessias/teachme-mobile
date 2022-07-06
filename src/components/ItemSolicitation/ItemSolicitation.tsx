@@ -5,8 +5,8 @@ import {styles} from './styles';
 interface iSolicitationProps {
   title: string;
   date: string;
-  onPressAccept?: () => void;
-  onPressRefuse?: () => void;
+  onPressAccept?: () => Promise<void>;
+  onPressRefuse?: () => Promise<void>;
 }
 
 const ItemSolicitation: FunctionComponent<iSolicitationProps> = props => {

@@ -16,11 +16,12 @@ const HomeScreen = () => {
         const userId = await AsyncStorage.getItem('@userId');
         const userType = await AsyncStorage.getItem('@userType');
 
+        console.log(userId, userType);
         if (userId && userType) {
-          nav.navigate('NotificationScreen');
+          nav.navigate('BottomTabNavigator');
         }
       } catch (e) {
-        console.log();
+        console.log(e);
       }
 
       SplashScreen.hide();

@@ -1,9 +1,10 @@
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
-  scrollView: {
+  view: {
     flex: 1,
-    paddingHorizontal: 25,
+    backgroundColor: 'white',
+    paddingBottom: 32,
   },
   title: {
     fontSize: 24,
@@ -15,5 +16,8 @@ export const styles = StyleSheet.create({
     width: 70,
     height: 70,
     alignSelf: 'center',
+  },
+  carouselContainer: {
+    marginBottom: 32,
   },
 });

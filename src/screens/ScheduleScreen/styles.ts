@@ -4,6 +4,7 @@ export const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
     paddingHorizontal: 25,
+    backgroundColor: 'white',
   },
   title: {
     fontSize: 24,

@@ -47,7 +47,10 @@ const LoginScreen: FunctionComponent = () => {
             );
             await AsyncStorage.setItem('@userType', data.user_login.userType);
 
-            nav.navigate('NotificationScreen');
+            nav.reset({
+              index: 0,
+              routes: [{name: 'BottomTabNavigator'}],
+            });
           } catch (asyncStorageError) {
             console.log(asyncStorageError);
           }

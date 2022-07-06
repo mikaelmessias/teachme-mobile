@@ -6,8 +6,6 @@ export type iRootStackParamList = {
   SignUpAvailabilityScreen: undefined;
   SignUpFinishedScreen: undefined;
   LoginScreen: undefined;
-  NotificationScreen: undefined;
-  ScheduleScreen: undefined;
+  BottomTabNavigator: undefined;
   ProfileScreen: undefined;
-  SearchScreen: undefined;
 };

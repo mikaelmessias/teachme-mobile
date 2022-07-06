@@ -111,3 +111,35 @@ export const stylesFlatList = StyleSheet.create({
     color: '#828282',
   },
 });
+
+export const stylesWeekDays = StyleSheet.create({
+  flatList: {
+    flexGrow: 1,
+    alignItems: 'center',
+    shadowColor: '#00000029',
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
+    marginBottom: 100, // perguntar sobre isso
+  },
+  item: {
+    width: 95,
+    height: 90,
+    alignItems: 'center',
+    paddingVertical: 22,
+    margin: 5,
+    marginBottom: 0,
+    borderRadius: 5
+  },
+  weekInitial: {
+    fontSize: 18,
+    fontWeight: '500',
+    marginBottom: 9,
+    color: '#FFF',
+  },
+  weekName: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: '#FFF',
+    fontFamily: 'Wigrum'
+  },
+});

@@ -12,16 +12,19 @@ import {
 import SignUpHeader from '../../components/SignUpHeader/SignUpHeader';
 import {Button} from 'react-native-paper';
 
-import {styles, stylesFlatList} from './styles';
+import {styles, stylesFlatList, stylesWeekDays} from './styles';
 import {useGetUserLazyQuery} from '../../generated/graphql';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {iUser} from './iUser';
+import {weekdays} from '../../helpers/weekdays';
 
 const ProfileScreen = () => {
   const nav = useNavigation();
 
   var [isPressAbility, setIsPressAbility] = React.useState(true);
   var [isPressAvailability, setIsPressAvailability] = React.useState(false);
+
+  const [availability, setAvailability] = React.useState(new Map());
 
   const [getUser] = useGetUserLazyQuery();
   const [userData, setUserData] = React.useState<iUser>();
@@ -38,28 +41,29 @@ const ProfileScreen = () => {
 
       if (data && data.user_list_single) {
         setUserData(data.user_list_single);
+        console.log(data.user_list_single);
       }
     })();
   }, []);
 
-  const list = [
-    {
-      title: 'JavaScript',
-      value: 'R$ 13,00',
+  const onSelect = React.useCallback(
+    (id: string) => {
+      const newAvailability = new Map(availability);
+
+      const teste = userData?.availability?.find(it => {
+        it.day == id;
+      });
+
+      if (teste) {
+        newAvailability.set(id, true);
+      } else {
+        newAvailability.set(id, false);
+      }
+
+      setAvailability(newAvailability);
     },
-    {
-      title: 'TypeScript',
-      value: 'R$ 14,00',
-    },
-    {
-      title: 'Kotlin',
-      value: 'R$ 20,00',
-    },
-    {
-      title: 'React',
-      value: 'R$ 15,00',
-    },
-  ];
+    [availability],
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -135,26 +139,62 @@ const ProfileScreen = () => {
           </TouchableOpacity>
         </View>
 
-        <FlatList
-          style={stylesFlatList.flatList}
-          data={userData?.skills}
-          renderItem={({item}) => (
-            <View style={stylesFlatList.content}>
-              <View>
-                <Image
-                  style={stylesFlatList.logoTech} //TODO ver sobre a logo
-                  source={require('../../assets/jon-snow.jpeg')}
-                />
+        {isPressAbility && userData?.skills && userData?.skills.length > 0 && (
+          <FlatList
+            style={stylesFlatList.flatList}
+            data={userData?.skills}
+            renderItem={({item}) => (
+              <View style={stylesFlatList.content}>
+                <View>
+                  <Image
+                    style={stylesFlatList.logoTech}
+                    source={require('../../assets/jon-snow.jpeg')}
+                  />
+                </View>
+                <View style={stylesFlatList.contentDescription}>
+                  <Text style={stylesFlatList.title}>
+                    {item.tech.title.toUpperCase()}
+                  </Text>
+                  <Text style={stylesFlatList.value}>{item.price}</Text>
+                </View>
               </View>
-              <View style={stylesFlatList.contentDescription}>
-                <Text style={stylesFlatList.title}>
-                  {item.tech.title.toUpperCase()}
-                </Text>
-                <Text style={stylesFlatList.value}>{item.price}</Text>
-              </View>
-            </View>
-          )}
-        />
+            )}
+          />
+        )}
+
+        {isPressAbility && userData?.skills && userData?.skills.length <= 0 && (
+          <View style={{marginBottom: 100}}>
+            <Text>Nenhuma habilidade adicionada</Text>
+          </View>
+        )}
+
+        {isPressAvailability && (
+          <View style={stylesWeekDays.flatList}>
+            <FlatList
+              data={weekdays}
+              numColumns={3}
+              renderItem={({item}) => (
+                <View
+                  style={[
+                    stylesWeekDays.item,
+                    {
+                      backgroundColor: availability.get(item.id)
+                        ? '#6717D1'
+                        : '#DBDBDB',
+                    },
+                  ]}
+                >
+                  <Text style={stylesWeekDays.weekInitial}>
+                    {item.subtitle}
+                  </Text>
+                  <Text style={stylesWeekDays.weekName}>
+                    {item.title.toUpperCase()}
+                  </Text>
+                </View>
+              )}
+            />
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

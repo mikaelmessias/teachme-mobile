@@ -69,6 +69,10 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '800',
   },
+  mySkillsAreaListItemIcon: {
+    width: 20,
+    height: 20,
+  },
 });
 
 export const stylesFlatList = StyleSheet.create({

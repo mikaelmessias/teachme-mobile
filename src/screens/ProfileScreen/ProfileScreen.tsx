@@ -17,6 +17,8 @@ import {useGetUserLazyQuery} from '../../generated/graphql';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {iUser} from './iUser';
 import {weekdays} from '../../helpers/weekdays';
+import {Newstyles, getDayItemContainer} from '../ScheduleScreen/styles';
+import utils from '../SignUpSkillsScreen/utils';
 
 const ProfileScreen = () => {
   const nav = useNavigation();
@@ -46,24 +48,11 @@ const ProfileScreen = () => {
     })();
   }, []);
 
-  const onSelect = React.useCallback(
-    (id: string) => {
-      const newAvailability = new Map(availability);
+  const getIcon = (thumbnailName: string) => {
+    const Icon = utils.getIcon(thumbnailName);
 
-      const teste = userData?.availability?.find(it => {
-        it.day == id;
-      });
-
-      if (teste) {
-        newAvailability.set(id, true);
-      } else {
-        newAvailability.set(id, false);
-      }
-
-      setAvailability(newAvailability);
-    },
-    [availability],
-  );
+    return <Icon style={styles.mySkillsAreaListItemIcon} />;
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -145,12 +134,7 @@ const ProfileScreen = () => {
             data={userData?.skills}
             renderItem={({item}) => (
               <View style={stylesFlatList.content}>
-                <View>
-                  <Image
-                    style={stylesFlatList.logoTech}
-                    source={require('../../assets/jon-snow.jpeg')}
-                  />
-                </View>
+                {getIcon(item.tech.thumbnail)}
                 <View style={stylesFlatList.contentDescription}>
                   <Text style={stylesFlatList.title}>
                     {item.tech.title.toUpperCase()}
@@ -172,26 +156,28 @@ const ProfileScreen = () => {
           <View style={stylesWeekDays.flatList}>
             <FlatList
               data={weekdays}
-              numColumns={3}
-              renderItem={({item}) => (
+              keyExtractor={weekday => weekday.id}
+              renderItem={({item: weekday}) => (
                 <View
-                  style={[
-                    stylesWeekDays.item,
-                    {
-                      backgroundColor: availability.get(item.id)
-                        ? '#6717D1'
-                        : '#DBDBDB',
-                    },
-                  ]}
+                  style={getDayItemContainer(
+                    userData?.availability
+                      ?.map(item => item.day)
+                      .includes(weekday.id),
+                  )}
                 >
-                  <Text style={stylesWeekDays.weekInitial}>
-                    {item.subtitle}
+                  <Text style={Newstyles.dayItemSubtitle}>
+                    {weekday.subtitle}
                   </Text>
-                  <Text style={stylesWeekDays.weekName}>
-                    {item.title.toUpperCase()}
-                  </Text>
+                  <Text style={Newstyles.dayItemTitle}>{weekday.title}</Text>
                 </View>
               )}
+              numColumns={3}
+              ItemSeparatorComponent={() => (
+                <View style={Newstyles.flatListSeparator} />
+              )}
+              style={Newstyles.daysSelectionFlatList}
+              contentContainerStyle={Newstyles.flatListContentContainer}
+              columnWrapperStyle={Newstyles.flatlistColumnWrapper}
             />
           </View>
         )}

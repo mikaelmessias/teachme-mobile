@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import NotificationScreen from '../../screens/NotificationScreen/NotificationScreen';
-import ScheduleScreen from '../../screens/ScheduleScreen/ScheduleScreen';
+// import ScheduleScreen from '../../screens/ScheduleScreen/ScheduleScreen';
 import ProfileScreen from '../../screens/ProfileScreen/ProfileScreen';
 import {iBottomTabNavigatorParamList} from './interfaces/iBottomTabNavigatorParamList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,11 +12,12 @@ import NotificationIcon from '../../assets/svg/bottomTab/notifications.svg';
 import NotificationActiveIcon from '../../assets/svg/bottomTab/notifications-active.svg';
 import SearchIcon from '../../assets/svg/bottomTab/search.svg';
 import SearchActiveIcon from '../../assets/svg/bottomTab/search-active.svg';
-import ScheduleIcon from '../../assets/svg/bottomTab/schedule.svg';
-import ScheduleActiveIcon from '../../assets/svg/bottomTab/schedule-active.svg';
+// import ScheduleIcon from '../../assets/svg/bottomTab/schedule.svg';
+// import ScheduleActiveIcon from '../../assets/svg/bottomTab/schedule-active.svg';
 import ProfileIcon from '../../assets/svg/bottomTab/profile.svg';
 import ProfileActiveIcon from '../../assets/svg/bottomTab/profile-active.svg';
 import styles from './styles';
+import SearchScreen from '../../screens/SearchScreen/SearchScreen';
 
 const Tab = createBottomTabNavigator<iBottomTabNavigatorParamList>();
 
@@ -48,8 +49,8 @@ const BottomTabNavigator = () => {
               );
             case 'SearchScreen':
               return focused ? <SearchActiveIcon /> : <SearchIcon />;
-            case 'ScheduleScreen':
-              return focused ? <ScheduleActiveIcon /> : <ScheduleIcon />;
+            // case 'ScheduleScreen':
+            //   return focused ? <ScheduleActiveIcon /> : <ScheduleIcon />;
             case 'ProfileScreen':
               return focused ? <ProfileActiveIcon /> : <ProfileIcon />;
           }
@@ -64,9 +65,9 @@ const BottomTabNavigator = () => {
             case 'SearchScreen':
               tabLabel = 'Busca';
               break;
-            case 'ScheduleScreen':
-              tabLabel = 'Agenda';
-              break;
+            // case 'ScheduleScreen':
+            //   tabLabel = 'Agenda';
+            //   break;
             case 'ProfileScreen':
               tabLabel = 'Perfil';
               break;
@@ -84,9 +85,9 @@ const BottomTabNavigator = () => {
     >
       <Tab.Screen name="NotificationScreen" component={NotificationScreen} />
       {userType === UserTypeEnum.Padawan && (
-        <Tab.Screen name="SearchScreen" component={ProfileScreen} />
+        <Tab.Screen name="SearchScreen" component={SearchScreen} />
       )}
-      <Tab.Screen name="ScheduleScreen" component={ScheduleScreen} />
+      {/* <Tab.Screen name="ScheduleScreen" component={ScheduleScreen} /> */}
       <Tab.Screen
         name="ProfileScreen"
         component={ProfileScreen}

@@ -16,7 +16,6 @@ const HomeScreen = () => {
         const userId = await AsyncStorage.getItem('@userId');
         const userType = await AsyncStorage.getItem('@userType');
 
-        console.log(userId, userType);
         if (userId && userType) {
           nav.navigate('BottomTabNavigator');
         }

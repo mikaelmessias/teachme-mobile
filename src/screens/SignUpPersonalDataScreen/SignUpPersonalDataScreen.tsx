@@ -117,7 +117,7 @@ const SignUpPersonalDataScreen = () => {
         }
       }
     } catch (e) {
-      console.log('Ocorreu uma falha ao criar o usuário');
+      console.warn('Ocorreu uma falha ao criar o usuário');
     }
   };
 

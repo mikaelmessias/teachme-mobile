@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   descriptionGroup: {
-    marginBottom: 108,
+    marginVertical: 50,
   },
   description: {
     fontSize: 48,

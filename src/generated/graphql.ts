@@ -298,6 +298,14 @@ export type UserLoginQueryVariables = Exact<{
 
 export type UserLoginQuery = { __typename?: 'Query', user_login?: { __typename?: 'UserEntity', id: number, userType: UserTypeEnum } | null };
 
+export type UpdateBookingStatusMutationVariables = Exact<{
+  bookingId: Scalars['Float'];
+  status: Scalars['String'];
+}>;
+
+
+export type UpdateBookingStatusMutation = { __typename?: 'Mutation', booking_update_status: boolean };
+
 export type ListAllBookingsByPadawanIdQueryVariables = Exact<{
   padawanId: Scalars['Float'];
 }>;
@@ -311,6 +319,13 @@ export type ListAllBookingsByJediIdQueryVariables = Exact<{
 
 
 export type ListAllBookingsByJediIdQuery = { __typename?: 'Query', booking_list_by_jedi_id: Array<{ __typename?: 'BookingEntity', id: number, date: number, status: BookingStatusEnum, padawan: { __typename?: 'UserEntity', id: number, name: string } }> };
+
+export type SearchTechByTitleQueryVariables = Exact<{
+  title: Scalars['String'];
+}>;
+
+
+export type SearchTechByTitleQuery = { __typename?: 'Query', tech_list_by_title: Array<{ __typename?: 'TechEntity', id: number, title: string, skills?: Array<{ __typename?: 'JediSkillEntity', jedi: { __typename?: 'UserEntity', name: string, availability?: Array<{ __typename?: 'JediAvailabilityEntity', day: WeekdaysEnum }> | null, skills?: Array<{ __typename?: 'JediSkillEntity', tech: { __typename?: 'TechEntity', thumbnail: string } }> | null } }> | null }> };
 
 export type CreateJediAvailabilityMutationVariables = Exact<{
   jediId: Scalars['Float'];
@@ -355,14 +370,6 @@ export type TechListAllQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type TechListAllQuery = { __typename?: 'Query', tech_list_all: Array<{ __typename?: 'TechEntity', id: number, title: string, thumbnail: string }> };
 
-export type UpdateBookingStatusMutationVariables = Exact<{
-  bookingId: Scalars['Float'];
-  status: Scalars['String'];
-}>;
-
-
-export type UpdateBookingStatusMutation = { __typename?: 'Mutation', booking_update_status: boolean };
-
 
 export const UserLoginDocument = gql`
     query UserLogin($email: String!, $password: String!) {
@@ -401,6 +408,38 @@ export function useUserLoginLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type UserLoginQueryHookResult = ReturnType<typeof useUserLoginQuery>;
 export type UserLoginLazyQueryHookResult = ReturnType<typeof useUserLoginLazyQuery>;
 export type UserLoginQueryResult = Apollo.QueryResult<UserLoginQuery, UserLoginQueryVariables>;
+export const UpdateBookingStatusDocument = gql`
+    mutation UpdateBookingStatus($bookingId: Float!, $status: String!) {
+  booking_update_status(input: {id: $bookingId, status: $status})
+}
+    `;
+export type UpdateBookingStatusMutationFn = Apollo.MutationFunction<UpdateBookingStatusMutation, UpdateBookingStatusMutationVariables>;
+
+/**
+ * __useUpdateBookingStatusMutation__
+ *
+ * To run a mutation, you first call `useUpdateBookingStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateBookingStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateBookingStatusMutation, { data, loading, error }] = useUpdateBookingStatusMutation({
+ *   variables: {
+ *      bookingId: // value for 'bookingId'
+ *      status: // value for 'status'
+ *   },
+ * });
+ */
+export function useUpdateBookingStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateBookingStatusMutation, UpdateBookingStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateBookingStatusMutation, UpdateBookingStatusMutationVariables>(UpdateBookingStatusDocument, options);
+      }
+export type UpdateBookingStatusMutationHookResult = ReturnType<typeof useUpdateBookingStatusMutation>;
+export type UpdateBookingStatusMutationResult = Apollo.MutationResult<UpdateBookingStatusMutation>;
+export type UpdateBookingStatusMutationOptions = Apollo.BaseMutationOptions<UpdateBookingStatusMutation, UpdateBookingStatusMutationVariables>;
 export const ListAllBookingsByPadawanIdDocument = gql`
     query ListAllBookingsByPadawanId($padawanId: Float!) {
   booking_list_by_padawan_id(padawanId: $padawanId) {
@@ -483,6 +522,55 @@ export function useListAllBookingsByJediIdLazyQuery(baseOptions?: Apollo.LazyQue
 export type ListAllBookingsByJediIdQueryHookResult = ReturnType<typeof useListAllBookingsByJediIdQuery>;
 export type ListAllBookingsByJediIdLazyQueryHookResult = ReturnType<typeof useListAllBookingsByJediIdLazyQuery>;
 export type ListAllBookingsByJediIdQueryResult = Apollo.QueryResult<ListAllBookingsByJediIdQuery, ListAllBookingsByJediIdQueryVariables>;
+export const SearchTechByTitleDocument = gql`
+    query SearchTechByTitle($title: String!) {
+  tech_list_by_title(title: $title) {
+    id
+    title
+    skills {
+      jedi {
+        name
+        availability {
+          day
+        }
+        skills {
+          tech {
+            thumbnail
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useSearchTechByTitleQuery__
+ *
+ * To run a query within a React component, call `useSearchTechByTitleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchTechByTitleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchTechByTitleQuery({
+ *   variables: {
+ *      title: // value for 'title'
+ *   },
+ * });
+ */
+export function useSearchTechByTitleQuery(baseOptions: Apollo.QueryHookOptions<SearchTechByTitleQuery, SearchTechByTitleQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchTechByTitleQuery, SearchTechByTitleQueryVariables>(SearchTechByTitleDocument, options);
+      }
+export function useSearchTechByTitleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchTechByTitleQuery, SearchTechByTitleQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchTechByTitleQuery, SearchTechByTitleQueryVariables>(SearchTechByTitleDocument, options);
+        }
+export type SearchTechByTitleQueryHookResult = ReturnType<typeof useSearchTechByTitleQuery>;
+export type SearchTechByTitleLazyQueryHookResult = ReturnType<typeof useSearchTechByTitleLazyQuery>;
+export type SearchTechByTitleQueryResult = Apollo.QueryResult<SearchTechByTitleQuery, SearchTechByTitleQueryVariables>;
 export const CreateJediAvailabilityDocument = gql`
     mutation CreateJediAvailability($jediId: Float!, $days: [WeekdaysEnum!]!) {
   jedi_availability_update(jediAvailability: {jediId: $jediId, days: $days}) {
@@ -686,35 +774,3 @@ export function useTechListAllLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type TechListAllQueryHookResult = ReturnType<typeof useTechListAllQuery>;
 export type TechListAllLazyQueryHookResult = ReturnType<typeof useTechListAllLazyQuery>;
 export type TechListAllQueryResult = Apollo.QueryResult<TechListAllQuery, TechListAllQueryVariables>;
-export const UpdateBookingStatusDocument = gql`
-    mutation UpdateBookingStatus($bookingId: Float!, $status: String!) {
-  booking_update_status(input: {id: $bookingId, status: $status})
-}
-    `;
-export type UpdateBookingStatusMutationFn = Apollo.MutationFunction<UpdateBookingStatusMutation, UpdateBookingStatusMutationVariables>;
-
-/**
- * __useUpdateBookingStatusMutation__
- *
- * To run a mutation, you first call `useUpdateBookingStatusMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateBookingStatusMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateBookingStatusMutation, { data, loading, error }] = useUpdateBookingStatusMutation({
- *   variables: {
- *      bookingId: // value for 'bookingId'
- *      status: // value for 'status'
- *   },
- * });
- */
-export function useUpdateBookingStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateBookingStatusMutation, UpdateBookingStatusMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateBookingStatusMutation, UpdateBookingStatusMutationVariables>(UpdateBookingStatusDocument, options);
-      }
-export type UpdateBookingStatusMutationHookResult = ReturnType<typeof useUpdateBookingStatusMutation>;
-export type UpdateBookingStatusMutationResult = Apollo.MutationResult<UpdateBookingStatusMutation>;
-export type UpdateBookingStatusMutationOptions = Apollo.BaseMutationOptions<UpdateBookingStatusMutation, UpdateBookingStatusMutationVariables>;

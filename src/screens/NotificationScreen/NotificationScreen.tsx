@@ -10,10 +10,7 @@ import ItemSolicitation from '../../components/ItemSolicitation/ItemSolicitation
 import Carousel from 'react-native-snap-carousel';
 
 import {styles} from './styles';
-import {
-  iNotificationCarouselItem,
-  iNotificationCarouselRenderItem,
-} from './interfaces/iNotificationCarouselItem';
+
 import {ITEM_WIDTH, SLIDER_WIDTH} from './utils';
 import {
   BookingStatusEnum,
@@ -25,6 +22,8 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
 import {getBookingStatus} from '../../helpers/bookingStatus';
+import {iCarouselRenderItem} from '../../helpers/iCarouselProps';
+import {iNotificationCarouselItem} from './interfaces/iNotificationCarouselItem';
 
 const NotificationScreen: FunctionComponent = () => {
   const [fetchPadawanBookings, {data: padawanBookings}] =
@@ -158,7 +157,7 @@ const NotificationScreen: FunctionComponent = () => {
 
   const handleCarouselItemRender = ({
     item,
-  }: iNotificationCarouselRenderItem) => {
+  }: iCarouselRenderItem<iNotificationCarouselItem>) => {
     return (
       <React.Fragment>
         <Text style={styles.title}>{item.title}</Text>
